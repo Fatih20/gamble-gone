@@ -4,7 +4,7 @@ import {
   tugas4Poin,
   tugas5Poin,
   tugas6Poin,
-} from "@/mockdata/tasks";
+} from "@/mock-data/tasks";
 import { Prisma } from "@prisma/client";
 import moment from "moment-timezone";
 
