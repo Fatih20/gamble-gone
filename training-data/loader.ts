@@ -63,20 +63,13 @@ async function loadAndSplit(directory: string = "gambling") {
     loadedDocsChunkId.push(id);
     prevNthPage = nthPage;
     return {
-      metadata: { ...metadata, id },
+      metadata: { ...metadata, id, name },
       pageContent,
       id,
     } as Document<Record<string, any>>;
   });
 
-  const upsertMetadata = await getUpsertMetadata();
-
-  upsertMetadata.upsertedDocsName = loadedDocsName;
-  upsertMetadata.upsertedDocsChunkId = loadedDocsChunkId;
-
-  saveUpsertMetadata(upsertMetadata);
-
-  return { result: mappedDocs, loadedDocsName };
+  return { result: mappedDocs, loadedDocsName, loadedDocsChunkId };
 }
 
 export default loadAndSplit;

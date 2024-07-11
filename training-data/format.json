@@ -1,0 +1,11 @@
+{
+    "debtPaymentHistory": [
+        {
+            "date" : DateTime in string,
+            "type" : "payment" | "increase",
+            "amount" : number in IDR
+        },
+        ...
+    ],
+    "currentDebt": number in IDR
+}

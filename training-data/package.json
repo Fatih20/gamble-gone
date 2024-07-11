@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "load-docs": "ts-node loader.ts",
-    "upsert-docs": "ts-node upsert.ts",
-    "dev": "ts-node index.ts"
+    "dev": "ts-node index.ts",
+    "reset-metadata": "ts-node index.ts --reset true",
+    "upsert": "ts-node index.ts --upsert true"
   },
   "keywords": [],
   "author": "",

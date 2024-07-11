@@ -31,3 +31,10 @@ export async function getUpsertMetadata() {
 export async function saveUpsertMetadata(data: UpsertMetadata) {
   return await saveJsonFile<UpsertMetadata>("./upsertMetadata.json", data);
 }
+
+export async function resetUpsertMetadata() {
+  return await saveJsonFile<UpsertMetadata>("./upsertMetadata.json", {
+    upsertedDocsChunkId: [],
+    upsertedDocsName: [],
+  });
+}
