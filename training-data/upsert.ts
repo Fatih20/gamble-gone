@@ -28,12 +28,11 @@ const UpstashVector = new UpstashVectorStore(embeddings, {
 
 // const embeddings = new OpenAIEmbeddings();
 
-(async () => {
+async function upsert() {
   const deleteAll = (getArgVariable("delete") ?? "false") === "true";
-  const docs = await loadAndSplit();
+  const { loadedDocsName, result: docs } = await loadAndSplit();
   console.log("Emptying the index");
   if (deleteAll) {
-    // await index.deleteAll();
     UpstashVector.delete({ deleteAll: true });
   }
   console.log("Emptied the index");
@@ -46,7 +45,9 @@ const UpstashVector = new UpstashVectorStore(embeddings, {
   //   onFailedAttempt: (error) => console.error(error),
   // });
   console.log("Upserted the docs");
-})();
+}
+
+(async () => {})();
 
 // console.log(envVar);
 

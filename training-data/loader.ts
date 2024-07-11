@@ -3,7 +3,7 @@ import { JSONLoader } from "langchain/document_loaders/fs/json";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { CSVLoader } from "@langchain/community/document_loaders/fs/csv";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-
+import { Document } from "@langchain/core/documents";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { getUpsertMetadata, saveUpsertMetadata } from "./manageUpsertMetadata";
 
@@ -42,17 +42,41 @@ async function loadAndSplit(directory: string = "gambling") {
     new Set(loadedDocsMetadata.map(({ name }) => name))
   );
 
+  console.log("Splitting documents");
+  const splitDocs = await splitter.splitDocuments(docs);
+  console.log("Split documents");
+
+  const loadedDocsChunkId: string[] = [];
+
+  let prevNthPage = 0;
+  let chunkIndex = 0;
+  const mappedDocs = splitDocs.map(({ metadata, pageContent }) => {
+    const arrayOfPath = (metadata["source"] as string).split("/");
+    const name = arrayOfPath[arrayOfPath.length - 1];
+    const nthPage = metadata["loc"].pageNumber;
+    if (nthPage === prevNthPage) {
+      chunkIndex++;
+    } else {
+      chunkIndex = 0;
+    }
+    const id = `${name}:${nthPage}:${chunkIndex}`;
+    loadedDocsChunkId.push(id);
+    prevNthPage = nthPage;
+    return {
+      metadata: { ...metadata, id },
+      pageContent,
+      id,
+    } as Document<Record<string, any>>;
+  });
+
   const upsertMetadata = await getUpsertMetadata();
 
   upsertMetadata.upsertedDocsName = loadedDocsName;
+  upsertMetadata.upsertedDocsChunkId = loadedDocsChunkId;
 
   saveUpsertMetadata(upsertMetadata);
 
-  console.log("Splitting documents");
-  const splitResult = await splitter.splitDocuments(docs);
-  console.log("Split documents");
-
-  return { result: splitResult, loadedDocsName };
+  return { result: mappedDocs, loadedDocsName };
 }
 
 export default loadAndSplit;
