@@ -29,7 +29,7 @@ import { z } from "zod";
 interface SecondStepProps {
   username: string;
   password: string;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any) => Promise<void>;
 }
 
 const SecondStep: React.FC<SecondStepProps> = ({
@@ -54,8 +54,8 @@ const SecondStep: React.FC<SecondStepProps> = ({
 
   const [isAgreed, setIsAgreed] = useState(false);
 
-  const handleSubmit = (data: z.infer<typeof FullProfileSchema>) => {
-    onSubmit({ ...data, username, password });
+  const handleSubmit = async (data: z.infer<typeof FullProfileSchema>) => {
+    await onSubmit({ ...data, username, password });
   };
 
   return (
