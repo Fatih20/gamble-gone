@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
     const errorFields = getZodParsingErrorFields(parseResult);
     return NextResponse.json(
       {
-        message: "Validasi request body gagal",
+        message: "Failed to parse form data",
         errorFields: errorFields,
       },
       { status: 400 },
@@ -69,11 +69,11 @@ export const POST = async (req: NextRequest) => {
       if (e.code === "P2002") {
         return NextResponse.json(
           {
-            message: "Username sudah digunakan",
+            message: "Username is already taken",
             fields: [
               {
                 field: "username",
-                message: "Username sudah digunakan",
+                message: "Username is already taken",
               },
             ],
           },
@@ -100,7 +100,7 @@ export const POST = async (req: NextRequest) => {
       // Unknown error
       return NextResponse.json(
         {
-          message: "Terjadi kesalahan",
+          message: "An error occurred",
         },
         { status: 500 },
       );
@@ -109,7 +109,7 @@ export const POST = async (req: NextRequest) => {
 
   // Success
   return NextResponse.json(
-    { message: "Berhasil terdaftarkan" },
+    { message: "Success Registration" },
     { status: 201 },
   );
 };

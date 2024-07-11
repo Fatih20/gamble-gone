@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
 
         if (!credentials) {
           throw new Error(
-            JSON.stringify({ message: "Username atau password salah!" }),
+            JSON.stringify({ message: "Wrong username or password!" }),
           );
         }
 
@@ -38,7 +38,7 @@ export const authOptions: AuthOptions = {
         // User not found
         if (!user) {
           throw new Error(
-            JSON.stringify({ message: "Username atau password salah!" }),
+            JSON.stringify({ message: "Wrong username or password!" }),
           );
         }
 
@@ -46,7 +46,7 @@ export const authOptions: AuthOptions = {
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error(
-            JSON.stringify({ message: "Username atau password salah!" }),
+            JSON.stringify({ message: "Wrong username or password!" }),
           );
         }
 

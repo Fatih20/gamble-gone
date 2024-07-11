@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest, context: { params: Params }) => {
   if (!username) {
     return NextResponse.json(
       {
-        message: "Username harus disertakan dalam query parameter",
+        message: "Username is required",
       },
       { status: 400 },
     );
