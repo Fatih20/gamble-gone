@@ -1,0 +1,27 @@
+{
+  "name": "training-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "load-docs": "ts-node loader.ts",
+    "upsert-docs": "ts-node upsert.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@huggingface/inference": "^2.7.0",
+    "@langchain/anthropic": "^0.2.3",
+    "@langchain/community": "^0.2.18",
+    "@langchain/core": "^0.2.15",
+    "@langchain/textsplitters": "^0.0.3",
+    "@types/node": "^20.14.10",
+    "dotenv": "^16.4.5",
+    "langchain": "^0.2.9",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@upstash/vector": "^1.1.4"
+  }
+}
