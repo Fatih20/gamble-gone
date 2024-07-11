@@ -1,8 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DeviceSelection } from "./device-selection";
 import "./globals.css";
+// import { TooltipProvider } from "@/components/plate-ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
+import type { Metadata } from "next";
+import { Raleway } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={raleway.className}>
+        <DeviceSelection>
+          {/* <TooltipProvider
+            disableHoverableContent
+            delayDuration={500}
+            skipDelayDuration={0}
+          > */}
+          {children}
+          {/* </TooltipProvider> */}
+          <Toaster richColors />
+        </DeviceSelection>
+      </body>
     </html>
   );
 }

@@ -9,8 +9,12 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     username: string;
-    name: string | null;
-    age: number | null;
+    name: string;
+    age: number;
+    gender: string;
+    gamblingStory: string;
+    gamblingDuration: number;
+    whyStop: string;
   }
 }
 
@@ -18,14 +22,22 @@ declare module "next-auth" {
   interface Session {
     id: string;
     username: string;
-    name: string | null;
-    age: number | null;
+    name: string;
+    age: number;
+    gender: string;
+    gamblingStory: string;
+    gamblingDuration: number;
+    whyStop: string;
   }
 
   interface User {
     id: string;
     username: string;
-    name: string | null;
-    birthDate: Date | null;
+    name: string;
+    birthDate: Date;
+    gender: string;
+    gamblingStory: string;
+    gamblingDuration: number;
+    whyStop: string;
   }
 }

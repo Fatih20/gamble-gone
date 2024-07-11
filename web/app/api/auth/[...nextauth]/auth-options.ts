@@ -57,17 +57,27 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       // Runs when jwt is created
-      if (user) {
-        token.id = user.id;
-        token.username = user.username;
-        if (user.name) {
-          token.name = user.name;
-        }
 
-        if (user.birthDate) {
-          const age = differenceInYears(new Date(), user.birthDate);
-          token.age = age;
-        }
+      if (user) {
+        const {
+          id,
+          birthDate,
+          gamblingDuration,
+          gamblingStory,
+          gender,
+          name,
+          username,
+          whyStop,
+        } = user;
+
+        token.id = id;
+        token.username = username;
+        token.name = name;
+        token.age = differenceInYears(new Date(), new Date(birthDate));
+        token.whyStop = whyStop;
+        token.gamblingDuration = gamblingDuration;
+        token.gamblingStory = gamblingStory;
+        token.gender = gender;
       }
 
       return token;
@@ -78,7 +88,10 @@ export const authOptions: AuthOptions = {
       session.username = token.username;
       session.name = token.name;
       session.age = token.age;
-
+      session.whyStop = token.whyStop;
+      session.gamblingDuration = token.gamblingDuration;
+      session.gamblingStory = token.gamblingStory;
+      session.gender = token.gender;
       return session;
     },
   },
