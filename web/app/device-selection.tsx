@@ -26,7 +26,7 @@ export function DeviceSelection({ children }: { children: React.ReactNode }) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-5 py-12">
         <h1 className="text-center text-2xl font-bold">
-          Mohon untuk membuka website ini di perangkat Desktop.
+          Please use Desktop devices to use this app.
         </h1>
       </main>
     );

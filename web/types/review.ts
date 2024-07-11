@@ -1,6 +1,8 @@
+import { type User } from "./user";
+
 export interface Review {
   id: string;
   review: string;
   rating: number;
-  isAnonymous: boolean;
+  createdBy: User | null;
 }
