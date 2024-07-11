@@ -13,3 +13,24 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+
+  // Optionals (updated after registration, when filling background information)
+  name        String
+  birthDate   DateTime
+  gender      String
+  totalPoints Int      @default(0)
+
+  // Todo, tambahin sesuai kebutuhan konteks
+
+  gamblingStory    String
+  gamblingDuration Int    @default(0)
+  whyStop          String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
