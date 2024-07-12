@@ -5,6 +5,7 @@ import { PlateRichTextSchema } from "@/schema/plate";
 import { CreatePostsSchema } from "@/schema/posts";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -95,6 +96,10 @@ export const POST = async (req: NextRequest) => {
       );
     }
   }
+
+  // Revalidate path
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${data.id}`);
 
   return NextResponse.json(
     { message: "Post berhasil dibuat", data: data },

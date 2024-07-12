@@ -5,6 +5,7 @@ import { PlateRichTextSchema } from "@/schema/plate";
 import { UpdatePostsSchema } from "@/schema/posts";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 
 type Params = {
@@ -127,6 +128,10 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
     }
   }
 
+  // Revalidate path
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${data.id}`);
+
   return NextResponse.json(
     { message: "Post berhasil diubah", data: data },
     { status: 200 },
@@ -209,6 +214,10 @@ export const DELETE = async (req: NextRequest, context: { params: Params }) => {
       );
     }
   }
+
+  // Revalidate path
+  revalidatePath("/posts");
+  revalidatePath(`/posts/${postID}`);
 
   return NextResponse.json(
     { message: "Post berhasil dihapus" },
