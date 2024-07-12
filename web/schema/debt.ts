@@ -15,3 +15,14 @@ export const DebtAnalysisSchema = z.object({
     }),
   ),
 });
+
+export const AddDebtManagerDataSchema = z.object({
+  amount: z.coerce.number({ message: "Transaction mager is required" }).min(0),
+  type: z.enum(["DEBT", "PAYMENT"], {
+    message: "Transaction type (DEBT or PAYMENT) is required",
+  }),
+  note: z
+    .string({ message: "Note is required" })
+    .min(1, { message: "Note is required" })
+    .max(64, { message: "Note maximum length is 64 characters." }),
+});

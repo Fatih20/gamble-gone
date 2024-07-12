@@ -31,9 +31,10 @@ model User {
   gamblingDuration Int    @default(0)
   whyStop          String
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt
-  DailyTask DailyTask[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  DailyTask   DailyTask[]
+  DebtManager DebtManager[]
 }
 
 model DailyTask {
@@ -42,6 +43,24 @@ model DailyTask {
   taskPoints      Int
   taskDescription String
   taskStatus      Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum TransactionType {
+  DEBT
+  PAYMENT
+}
+
+model DebtManager {
+  id     String          @id @default(uuid())
+  type   TransactionType // DEBT or PAYMENT
+  amount Int
+  note   String
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
