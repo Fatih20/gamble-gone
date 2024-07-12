@@ -22,11 +22,13 @@ GambleGone provide a whole range of resources to assist those who are struggling
 
 ## Technologies Used
 
-- ShadCN UI Library
-- PlateJS Rich Text Editor
+- Next.js v14
+- shadcn/ui UI Library
+- Plate.js Rich Text Editor
 - Prisma ORM - version 5.16.1
-- Zod Validator - version 3.23.8
 - NextAuth - version 4.24.7
+- Zod Validator - version 3.23.8
+- React Query - version 3.39.3
 - Vercel AI SDK - version 3.2.22
 - lanchain - version 0.2.9
 - langsmith - version 0.1.36
@@ -46,26 +48,44 @@ GambleGone provide a whole range of resources to assist those who are struggling
 
 <!-- If you have screenshots you'd like to share, include them here. -->
 
+## How to use
+
+To use our website, simply visit [https://gamble-gone.vercel.app](https://gamble-gone.vercel.app).
+
 ## Setup
+
+(NOTE: YOU CAN'T RUN THIS FULLY FUNCTIONAL WITHOUT THE .ENV FILE.)
 
 To Install this project, make sure you have the Node.js installed on your machine. Then, clone the repository and run the following commands:
 
+- Clone the repository
+
 ```bash
-git clone
+https://github.com/Fatih20/gamble-gone.git
 ```
+
+- Go to the web directory
 
 ```bash
 cd Gamble-Gone
-```
-
-```bash
 cd web
 ```
+
+- Install required modules
 
 ```bash
 npm install
 npx prisma generate
 ```
+
+- Seed the database
+
+```bash
+npm run seed
+
+```
+
+- Run
 
 ```bash
 npm install
