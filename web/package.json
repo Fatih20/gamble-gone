@@ -6,6 +6,7 @@
     "index": "ts-node index.ts",
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint",
     "lint-staged": "lint-staged",
