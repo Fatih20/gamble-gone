@@ -141,23 +141,23 @@ export function Chat({ message }: { message: Message[] }) {
               className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
             />
             <button
-              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
+              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-purple"
               onClick={() => {
                 // console.log("Clicking template chevron");
                 setTemplateVisible((prev) => !prev);
               }}
             >
-              <ChevronDown
-                className={`${templateVisible ? "rotate-180" : "rotate-0"} transition-all`}
+              <ChevronUp
+                className={`${templateVisible ? "rotate-180" : "rotate-0"} transition-all stroke-primary-white`}
               />
             </button>
             <button
-              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
+              className={`my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-purple ${disabledSend ? "opacity-50" : "opacity-100"}`}
               disabled={disabledSend}
               onClick={handleSend}
             >
               <Send
-                className={`relative right-[2px] rotate-12 ${disabledSend ? "stroke-[#969595]" : "stroke-primary-black"}`}
+                className={`relative right-[2px] rotate-12 ${disabledSend ? "stroke-primary-white" : "stroke-primary-white"}`}
               />
             </button>
           </div>
