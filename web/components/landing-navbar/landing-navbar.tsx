@@ -56,7 +56,7 @@ export const LandingNavbar = async () => {
           {!isAuthenticated ? (
             <ul className="flex flex-row items-center gap-3 place-self-center justify-self-end">
               <li>
-                <Link href="/auth/login">
+                <Link href="/auth/register">
                   <Button
                     variant="green"
                     // size="lg"

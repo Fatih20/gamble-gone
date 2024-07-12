@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GambleGone
 
-## Getting Started
+Over 2.8 million Indonesians are drawn to online gambling, thus the government has made great efforts to combat this expanding problem, which has had a big influence on society. Nevertheless, a lot of people are still affected by gambling addiction, despite extensive regulatory measures. GambleGone seeks to close this gap by offering all-encompassing assistance and direction via sophisticated AI-generated tools and tailored resources. With a lifeline to recovery and a better, addiction-free future, GambleGone is committed to making a significant difference in the lives of people impacted by gambling addiction.
 
-First, run the development server:
+GambleGone strongly aligns with the 3rd and 11th Sustainable Development Goals, Good Health and Well-being and Sustainable Cities and Communities. By tackling the issue of gambling addiction, GambleGone contributes to the promotion of mental health and well-being, a key target of the 3rd SDG. Our platform provides crucial support and guidance for individuals struggling with gambling addiction, fostering healthier lifestyles and mental resilience. Furthermore, GambleGone's efforts support the 11th SDG by helping to build more sustainable communities. By reducing the prevalence of gambling addiction, we contribute to creating safer, more inclusive communities where individuals can thrive without the detrimental impacts of addiction. Through our comprehensive approach, GambleGone aims to not only address the immediate challenges of gambling addiction but also to promote long-term health and sustainability in communities across Indonesia.
+
+## Table of Contents
+
+- [General Info](#general-information)
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Setup](#setup)
+- [Project Status](#project-status)
+- [Room for Improvement](#room-for-improvement)
+- [Contact](#contact)
+<!-- * [License](#license) -->
+
+## General Information
+
+GambleGone provide a whole range of resources to assist those who are struggling with gambling addiction. We have a blog on our platform where users may post their ideas and experiences to foster a supportive community. Users are empowered on their recovery journeys by the AI-Powered Chat, which offers nonjudgmental talks, coping tactics, and personalized resources. Auto-Generated assignments provide users with specialized assignments to help them manage their everyday activities and overcome their addiction to gambling. Step-by-step plans for managing and reducing debt are provided via the Debt Manager tool, which eases financial stress. The Rehabilitation Center recommendation shares nearby centers that specialize in treating gambling addiction. Lastly, a thorough summary of the user's progress is provided via the Personalized Dashboard, which includes recommendations, status updates, and completed tasks.
+
+## Technologies Used
+
+- ShadCN UI Library
+- PlateJS Rich Text Editor
+- Prisma ORM - version 5.16.1
+- Zod Validator - version 3.23.8
+- NextAuth - version 4.24.7
+- Vercel AI SDK - version 3.2.22
+- lanchain - version 0.2.9
+- langsmith - version 0.1.36
+
+## Features
+
+- AI Powered Chat
+- AI Powered Debt Manager
+- Rehabilitation center
+- Personalized Dashboard
+- Blog sharing platform
+- Auto Generated Tasks
+
+## Screenshots
+
+![Example screenshot](./img/screenshot.png)
+
+<!-- If you have screenshots you'd like to share, include them here. -->
+
+## Setup
+
+To Install this project, make sure you have the Node.js installed on your machine. Then, clone the repository and run the following commands:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Status
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is completed and ready for use.
+We are currently working on the mobile version of the platform.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contact
 
-## Learn More
+Created by
+[@Fatih20](https://github.com/Fatih20)
+[@ImanuelSG](https://github.com/ImanuelSG)
+[@dewodt](https://github.com/dewodt)
+[@angiekierra](https://github.com/angiekierra)
 
-To learn more about Next.js, take a look at the following resources:
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```

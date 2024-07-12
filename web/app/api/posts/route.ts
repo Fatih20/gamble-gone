@@ -54,7 +54,7 @@ export const POST = async (req: NextRequest) => {
   const content = parseRichContentResult.data;
   const userID = session.id;
 
-  console.log(title, previewText, isAnonymous, content);
+  // console.log(title, previewText, isAnonymous, content);
 
   // Create post
   let data;

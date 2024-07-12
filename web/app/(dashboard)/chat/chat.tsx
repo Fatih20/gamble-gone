@@ -26,7 +26,6 @@ export function Chat({ message }: { message: Message[] }) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   function scrollIntoView() {
-    console.log("Scrolling");
     if (!messageBottomRef.current) {
       return;
     }
@@ -144,7 +143,7 @@ export function Chat({ message }: { message: Message[] }) {
             <button
               className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
               onClick={() => {
-                console.log("Clicking template chevron");
+                // console.log("Clicking template chevron");
                 setTemplateVisible((prev) => !prev);
               }}
             >
