@@ -73,7 +73,7 @@ export function CreateBlogForm() {
     },
     onMutate: () => {
       // Show loading toast
-      toast.loading("Loading", { description: "Deleting blog..." });
+      toast.loading("Loading", { description: "Adding blog..." });
     },
   });
 

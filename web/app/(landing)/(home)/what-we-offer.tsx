@@ -39,7 +39,7 @@ export function WhatWeOffer() {
     },
     {
       id: "4",
-      title: "Dept Management",
+      title: "AI-Debt Management",
       icon: <Wallet className="mr-2 text-primary-green" />,
       description:
         "Our debt-manager offers step-by-step plans to manage and reduce debt, alleviating the financial stress associated with gambling addiction.",
