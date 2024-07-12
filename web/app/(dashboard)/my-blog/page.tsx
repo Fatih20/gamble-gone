@@ -1,4 +1,4 @@
-import { DeleteBlogButton } from "./delete-blog-button";
+import { EditDeleteButton } from "./edit-delete-button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -109,18 +109,7 @@ function MyBlogCard({ data }: { data: Posts }) {
         </p>
 
         {/* Detail Button */}
-        <div className="flex flex-row items-center gap-3 self-end">
-          {/* Delete Blog */}
-          <DeleteBlogButton blogID={data.id} />
-
-          {/* Edit Blog */}
-          <Link href={`/my-blog/${data.id}`}>
-            <Button variant="purple" className="rounded-full px-5 font-bold">
-              <Edit className="mr-2 size-5" />
-              Edit
-            </Button>
-          </Link>
-        </div>
+        <EditDeleteButton blogID={data.id} />
       </div>
     </article>
   );

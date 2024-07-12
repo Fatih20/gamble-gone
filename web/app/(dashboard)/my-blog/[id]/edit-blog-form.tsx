@@ -14,19 +14,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { CreatePostsSchema } from "@/schema/posts";
-import { type Posts } from "@/types/posts";
+import { CreatePostsSchema, UpdatePostsSchema } from "@/schema/posts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Value } from "@udecode/plate-common";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { toast } from "sonner";
 import { z } from "zod";
 
 interface EditBlogFormProps {
-  initialValue: Posts;
+  blogID: string;
+  initialValue: {
+    title: string;
+    previewText: string;
+    isAnonymous: boolean;
+    content: Value;
+  };
 }
 
-export function EditBlogForm({ initialValue }: EditBlogFormProps) {
+export function EditBlogForm({ blogID, initialValue }: EditBlogFormProps) {
   // Rich text editor state
   const [editorValue, setEditorValue] = useState<Value>(initialValue.content);
 
@@ -35,14 +44,53 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
     defaultValues: {
       title: initialValue.title,
       previewText: initialValue.previewText,
-      isAnonymous: initialValue.createdBy == null,
+      isAnonymous: initialValue.isAnonymous,
       content: JSON.stringify(initialValue.content),
     },
   });
 
+  const router = useRouter();
+
+  const editNewBlog = async (values: z.infer<typeof UpdatePostsSchema>) => {
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("previewText", values.previewText);
+    formData.append("content", values.content);
+    formData.append("isAnonymous", values.isAnonymous.toString());
+
+    const result = await fetch(`/api/posts/${blogID}`, {
+      method: "PUT",
+      body: formData,
+    });
+    const resJSON = await result.json();
+
+    if (!result.ok) {
+      throw new Error(resJSON.message ?? "Failed to update blog!");
+    }
+  };
+
+  const mutation = useMutation(editNewBlog, {
+    // Refresh
+    onSuccess: () => {
+      toast.dismiss();
+      toast.success("Success", { description: "Blog updated successfully!" });
+      router.refresh();
+    },
+    onError: (error) => {
+      // Show error toast
+      toast.dismiss();
+      toast.error("Error", {
+        description: "Failed to update blog!",
+      });
+    },
+    onMutate: () => {
+      // Show loading toast
+      toast.loading("Loading", { description: "Updating blog..." });
+    },
+  });
+
   function onSubmit(values: z.infer<typeof CreatePostsSchema>) {
-    // Parse value into array
-    console.log(values);
+    mutation.mutate(values);
   }
 
   // Watch editorValue changes
@@ -73,7 +121,11 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Title" {...field} />
+                <Input
+                  placeholder="Title"
+                  disabled={mutation.isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>Title of your blog post.</FormDescription>
               <FormMessage />
@@ -89,7 +141,11 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
             <FormItem>
               <FormLabel>Preview Text</FormLabel>
               <FormControl>
-                <Textarea placeholder="Preview Text" {...field} />
+                <Textarea
+                  placeholder="Preview Text"
+                  disabled={mutation.isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Preview text of your blog post. This will be shown in the blog
@@ -115,6 +171,7 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
               <FormControl>
                 <Switch
                   checked={field.value}
+                  disabled={mutation.isLoading}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
@@ -132,6 +189,7 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
               <FormControl>
                 <>
                   <PlateEditor
+                    readOnly={mutation.isLoading}
                     setValue={setEditorValue}
                     initialValue={initialValue.content}
                   />
@@ -148,9 +206,17 @@ export function EditBlogForm({ initialValue }: EditBlogFormProps) {
           type="submit"
           size="lg"
           variant="green"
-          className="self-end px-16 font-bold"
+          className="self-end w-44 font-bold"
+          disabled={mutation.isLoading}
         >
-          Update
+          {mutation.isLoading ? (
+            <>
+              <Loader className="animate-spin size-4 mr-2" />
+              Loading
+            </>
+          ) : (
+            <>Submit</>
+          )}
         </Button>
       </form>
     </Form>

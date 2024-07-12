@@ -59,15 +59,21 @@ export function CreateBlogForm() {
   const mutation = useMutation(createNewBlog, {
     onSuccess: () => {
       // Refresh & push to posts page
+      toast.dismiss();
       toast.success("Success!", { description: "Blog created successfully" });
-      router.refresh();
       router.push("/my-blog");
+      router.refresh();
     },
     onError: (error) => {
       // Show error toast
+      toast.dismiss();
       toast.error("Error!", {
-        description: String(error) ?? "Failed to create blog!",
+        description: "Failed to create blog!",
       });
+    },
+    onMutate: () => {
+      // Show loading toast
+      toast.loading("Loading", { description: "Deleting blog..." });
     },
   });
 

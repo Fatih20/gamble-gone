@@ -1,5 +1,6 @@
 import { EditBlogForm } from "./edit-blog-form";
-import { mockPosts } from "@/mock-data/posts";
+import { prisma } from "@/lib/prisma";
+import { Value } from "@udecode/plate";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -8,16 +9,27 @@ interface Params {
   id: string;
 }
 
-export default function EditBlogPage({ params }: { params: Params }) {
+export default async function EditBlogPage({ params }: { params: Params }) {
   // Get id
   const blogID = params.id;
 
   // Mock initial value
-  const mockInitialValue = mockPosts.find((post) => post.id === blogID);
+  const blog = await prisma.post.findUnique({
+    where: {
+      id: blogID,
+    },
+  });
 
-  if (!mockInitialValue) {
+  if (!blog) {
     return notFound();
   }
+
+  const initialValue = {
+    title: blog.title,
+    previewText: blog.previewText,
+    isAnonymous: blog.isAnonymous,
+    content: blog.content as Value,
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-white p-24">
@@ -40,7 +52,7 @@ export default function EditBlogPage({ params }: { params: Params }) {
         </header>
 
         {/* Form */}
-        <EditBlogForm initialValue={mockInitialValue} />
+        <EditBlogForm blogID={blogID} initialValue={initialValue} />
       </section>
     </main>
   );
