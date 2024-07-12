@@ -2,9 +2,17 @@
 
 import { mockChat } from "@/mock-data/chat";
 import { type Message } from "@/types/message";
-import { Send } from "lucide-react";
+import { ChevronDown, ChevronUp, Send } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+
+const templateQuestion = [
+  "What are the signs that I'm addicted?",
+  "Any book recommendations on online gambling addiction?",
+  "How can my spouse play a role in helping me?",
+  "Give me tips on handling my financials after my addiction.",
+  "Tell me ways to stop my addiction.",
+];
 
 export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -12,6 +20,7 @@ export function Chat() {
   const [processing, setProcessing] = useState(false);
   const [disabledInput, setDisabledInput] = useState(false);
   const [disabledSend, setDisabledSend] = useState(false);
+  const [templateVisible, setTemplateVisible] = useState(false);
   const messageBottomRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +59,7 @@ export function Chat() {
   }
 
   async function handleSend() {
+    setTemplateVisible(false);
     setProcessing(true);
     const prevId = getLastMessage()?.id ?? -1;
     const messageToSend = currentMessage;
@@ -104,22 +114,49 @@ export function Chat() {
         <div className="w-full h-0 mt-4" ref={messageBottomRef}></div>
       </div>
       {/* Input */}
-      <div className="pb-8 bg-white px-16">
-        <div className="flex flex-row items-center gap-2 rounded-[40px] border bg-secondary-white pl-8 pr-5">
-          <textarea
-            ref={textAreaRef}
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
-            placeholder="Write what you would like to ask"
-            className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
-          />
-          <button
-            className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
-            disabled={disabledSend}
-            onClick={handleSend}
+      <div className="flex flex-col gap-4 pb-4">
+        <div className="bg-white px-16 relative">
+          <div
+            className={`flex flex-col gap-4 absolute bottom-full ${templateVisible ? "translate-y-0 opacity-0 pointer-events-none" : "-translate-y-5 opacity-100"} transition-all p-4 bg-primary-white/50 rounded-lg backdrop-blur-sm`}
           >
-            <Send className="relative right-[2px] rotate-12 stroke-[#969595]" />
-          </button>
+            <div className="text-primary-purple text-lg font-bold">FAQ</div>
+            {templateQuestion.map((question) => {
+              return (
+                <button
+                  onClick={() => setCurrentMessage(question)}
+                  className="rounded-xl w-fit text-sm p-2 bg-primary-purple text-primary-white"
+                >
+                  {question}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex flex-row items-center gap-2 rounded-[40px] border bg-secondary-white pl-8 pr-5">
+            <textarea
+              ref={textAreaRef}
+              value={currentMessage}
+              onChange={(e) => setCurrentMessage(e.target.value)}
+              placeholder="Write what you would like to ask"
+              className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
+            />
+            <button className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray">
+              <ChevronDown
+                onClick={() => {
+                  setTemplateVisible((prev) => !prev);
+                }}
+                className={`${templateVisible ? "rotate-180" : "rotate-0"} transition-all`}
+              />
+            </button>
+            <button
+              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
+              disabled={disabledSend}
+              onClick={handleSend}
+            >
+              <Send
+                className={`relative right-[2px] rotate-12 ${disabledSend ? "stroke-[#969595]" : "stroke-primary-black"}`}
+              />
+            </button>
+          </div>
         </div>
       </div>
     </>
