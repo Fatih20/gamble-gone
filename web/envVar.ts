@@ -4,6 +4,9 @@ const envVar = {
   langchainProject: (process.env.LANGCHAIN_PROJECT ?? "") as string,
   langchainTracingV2: (process.env.LANGCHAIN_TRACING_V2 ?? "") as string,
   huggingFaceToken: (process.env.HUGGING_FACE_TOKEN ?? "") as string,
+  upstashVectorRestURL: (process.env.UPSTASH_VECTOR_REST_URL ?? "") as string,
+  upstashVectorRestToken: (process.env.UPSTASH_VECTOR_REST_TOKEN ??
+    "") as string,
 };
 
 export default envVar;
