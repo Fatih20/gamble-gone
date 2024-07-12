@@ -43,7 +43,7 @@ export function BlogCard({ data }: { data: Posts }) {
             className="rounded-full px-5 font-bold"
             size="lg"
           >
-            Baca Selengkapnya
+            Read More
           </Button>
         </Link>
       </div>
