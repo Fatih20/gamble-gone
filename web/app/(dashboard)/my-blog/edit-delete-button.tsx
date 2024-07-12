@@ -80,11 +80,10 @@ export function EditDeleteButton({ blogID }: DeleteBlogButtonProps) {
         {/* Content */}
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Konfirmasi Delete</AlertDialogTitle>
+            <AlertDialogTitle>Confirm Delete</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription>
-            Apakah Anda yakin ingin menghapus blog ini? Tindakan ini tidak dapat
-            diurungkan.
+            Are you sure to delete this blog?
           </AlertDialogDescription>
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-full px-5 font-semibold">
