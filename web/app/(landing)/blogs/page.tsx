@@ -35,7 +35,7 @@ export default async function Blogs() {
             Blog
           </h1>
           <p className="mt-3 text-center text-3xl font-medium text-primary-purple">
-            Baca cerita dari pengalaman para pengguna GambleGone
+            Read stories from the user of GambleGone
           </p>
         </div>
 
