@@ -67,25 +67,25 @@ export function Chat({ message }: { message: Message[] }) {
     ]);
     setCurrentMessage("");
     try {
-      // const result = await fetch("/api/chat", {
-      //   method: "POST",
-      //   headers: {
-      //     type: "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     question: messageToSend,
-      //   }),
-      // });
-
-      // const { answer } = (await result.json()) as { answer: string };
-
-      const promise = new Promise((resolve) => {
-        setTimeout(() => resolve(true), 500);
+      const result = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          type: "application/json",
+        },
+        body: JSON.stringify({
+          question: messageToSend,
+        }),
       });
 
-      await promise;
+      const { answer } = (await result.json()) as { answer: string };
 
-      const answer = "Mock answer";
+      // const promise = new Promise((resolve) => {
+      //   setTimeout(() => resolve(true), 500);
+      // });
+
+      // await promise;
+
+      // const answer = "Mock answer";
 
       setMessages((prev) => [
         ...prev,
