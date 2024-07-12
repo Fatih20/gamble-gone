@@ -38,7 +38,7 @@ export default async function ChatPage() {
           <h1 className="text-5xl font-extrabold text-primary-black">
             AI Help Chat
           </h1>
-          <p className="mt-1 text-2xl font-semibold text-primary-green">
+          <p className="mt-1 text-2xl font-semibold text-primary-purple">
             Ask anything that might help with your recovery process using our AI
             assistant who have been informed of your circumstances.
           </p>
