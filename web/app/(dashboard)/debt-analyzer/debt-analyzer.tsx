@@ -50,16 +50,20 @@ export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
         return;
       }
 
-      const reader = res.body?.getReader();
-      const decoder = new TextDecoder("utf-8");
+      const result = await res.json();
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      setText(result.analysis);
 
-        const chunk = decoder.decode(value, { stream: true });
-        setText((prev) => prev + chunk);
-      }
+      // const reader = res.body?.getReader();
+      // const decoder = new TextDecoder("utf-8");
+
+      // while (true) {
+      //   const { done, value } = await reader.read();
+      //   if (done) break;
+
+      //   const chunk = decoder.decode(value, { stream: true });
+      //   setText((prev) => prev + chunk);
+      // }
 
       toast.success("Analysis generated successfully");
     } catch (error) {

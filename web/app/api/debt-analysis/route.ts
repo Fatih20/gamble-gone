@@ -42,5 +42,12 @@ export const POST = async (req: NextRequest) => {
     background,
   );
 
-  return new StreamingTextResponse(analysis);
+  return NextResponse.json(
+    {
+      analysis,
+    },
+    { status: 200 },
+  );
+
+  // return new StreamingTextResponse(analysis);
 };

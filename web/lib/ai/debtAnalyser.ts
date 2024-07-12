@@ -106,7 +106,7 @@ export class DebtAnalyser {
     background: string,
     chain: Runnable<any, string, RunnableConfig>,
   ) {
-    return await chain.stream({
+    return await chain.invoke({
       currentDebt,
       debtTransactions: JSON.stringify(debtTransactions),
       background,
