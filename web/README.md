@@ -36,7 +36,7 @@ GambleGone provide a whole range of resources to assist those who are struggling
 - AI Powered Chat
 - AI Powered Debt Manager
 - Rehabilitation center
-- Personalized Dashboard
+- Personalized Dashboardf
 - Blog sharing platform
 - Auto Generated Tasks
 
@@ -51,8 +51,27 @@ GambleGone provide a whole range of resources to assist those who are struggling
 To Install this project, make sure you have the Node.js installed on your machine. Then, clone the repository and run the following commands:
 
 ```bash
-
+git clone 
 ```
+
+```bash
+cd Gamble-Gone
+```
+
+```bash
+cd web
+```
+
+```bash
+npm install 
+npx prisma generate
+```
+
+```bash
+npm install 
+npx run dev
+```
+
 
 ## Project Status
 
@@ -66,7 +85,3 @@ Created by
 [@ImanuelSG](https://github.com/ImanuelSG)
 [@dewodt](https://github.com/dewodt)
 [@angiekierra](https://github.com/angiekierra)
-
-```
-
-```

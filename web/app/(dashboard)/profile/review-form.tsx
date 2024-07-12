@@ -93,7 +93,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ isEditing, prevReview }) => {
     } catch (e) {
       console.log(e);
       toast.error("Error", {
-        description: "Terjadi kesalahan internal",
+        description: "Internal error occured",
       });
     }
   };

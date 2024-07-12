@@ -1,6 +1,7 @@
+
 import { LandingNavbar } from "@/components/landing-navbar/landing-navbar";
 
-export default function EntryLayout({
+export default async function EntryLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

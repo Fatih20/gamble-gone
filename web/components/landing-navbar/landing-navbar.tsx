@@ -1,16 +1,15 @@
+"use client";
+
 import { LandingNavbarItem } from "./landing-navbar-item";
-import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-export const LandingNavbar = async () => {
-  let isAuthenticated = false;
-  const res = await getServerAuthSession();
+export const LandingNavbar = () => {
+  const { data } = useSession();
 
-  if (res) {
-    isAuthenticated = true;
-  }
+  const isAuthenticated = data ? true : false;
   const navItems = [
     {
       title: "Blogs",

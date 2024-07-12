@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { H4, P } from "@/components/ui/typography";
 import { DebtManager } from "@prisma/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 interface DebtAnalyzerProps {
@@ -13,17 +13,18 @@ interface DebtAnalyzerProps {
 
 export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
   const [text, setText] = useState<string>("");
+  const [displayText, setDisplayText] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit = async () => {
     setText("");
+    setDisplayText("");
     const body = {
       currentDebt,
-      debtTransactions: history.map(({ amount, type, createdAt, note }) => ({
-        amount: amount,
-        type: type,
-        date: createdAt.toLocaleDateString(),
-        note: note,
+      debtTransactions: history.map((debt) => ({
+        amount: debt.amount,
+        type: debt.type,
+        date: debt.createdAt,
       })),
     };
 
@@ -45,32 +46,30 @@ export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
         throw new Error("Failed to generate analysis");
       }
 
-      if (!res.body) {
-        console.error("ReadableStream not supported in this browser.");
-        return;
-      }
-
-      const result = await res.json();
-
-      setText(result.analysis);
-
-      // const reader = res.body?.getReader();
-      // const decoder = new TextDecoder("utf-8");
-
-      // while (true) {
-      //   const { done, value } = await reader.read();
-      //   if (done) break;
-
-      //   const chunk = decoder.decode(value, { stream: true });
-      //   setText((prev) => prev + chunk);
-      // }
-
+      const { analysis } = await res.json();
+      setText(analysis);
       toast.success("Analysis generated successfully");
     } catch (error) {
       toast.error("Error generating analysis");
     }
     setIsSubmitting(false);
   };
+
+  useEffect(() => {
+    let index = -1;
+    if (text) {
+      const interval = setInterval(() => {
+        setDisplayText((prev) => prev + text.charAt(index));
+        index++;
+        if (index >= text.length) {
+          clearInterval(interval);
+        }
+      }, 20); // Adjust the interval as needed
+      return () => clearInterval(interval);
+    } else {
+      setDisplayText("");
+    }
+  }, [text]);
 
   return (
     <div className="w-full items-start">
@@ -89,7 +88,7 @@ export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
           Analysis Result
         </H4>
         <P className="text-lg mt-3 text-primary-black text-justify">
-          {text || "No analysis yet"}
+          {displayText || "No analysis yet"}
         </P>
       </div>
     </div>

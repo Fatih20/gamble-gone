@@ -27,11 +27,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerAuthSession();
   return (
     <html lang="en">
       <body className={raleway.className}>
-        <SessionProviderClientComponent session={session}>
+        <SessionProviderClientComponent>
           <QueryProvider>
             <DeviceSelection>
               <TooltipProvider
