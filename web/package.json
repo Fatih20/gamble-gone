@@ -73,6 +73,7 @@
     "@udecode/plate-table": "^36.0.0",
     "@udecode/plate-trailing-block": "^36.0.0",
     "@upstash/vector": "^1.1.4",
+    "@vercel/functions": "^1.4.0",
     "ai": "^3.2.22",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",

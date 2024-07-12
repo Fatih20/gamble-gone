@@ -1,4 +1,5 @@
 import { authOptions } from "../auth/[...nextauth]/auth-options";
+import { geolocation } from "@vercel/functions";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -27,7 +28,7 @@ export const GET = async (req: NextRequest) => {
     };
   } else {
     // Production (real geolocation)
-    geoloc = req.geo;
+    geoloc = geolocation(req);
   }
   if (
     !geoloc ||
@@ -45,7 +46,12 @@ export const GET = async (req: NextRequest) => {
 
   // Generate search params
   const keywordsArr: string[] = [];
-  keywordsArr.push("Pusat Rehabilitasi");
+  if (geoloc.country?.toLowerCase() === "indonesia") {
+    keywordsArr.push("Pusat Rehabilitasi");
+  } else {
+    keywordsArr.push("Rehabilitation Center");
+  }
+  keywordsArr.push("Rehabilitation Center");
   if (geoloc.city) keywordsArr.push(geoloc.city);
   if (geoloc.region) keywordsArr.push(geoloc.region);
   if (geoloc.country) keywordsArr.push(geoloc.country);
