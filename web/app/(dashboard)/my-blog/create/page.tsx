@@ -27,7 +27,7 @@ export default async function CreateBlogPage() {
 
           {/* Title */}
           <h1 className="text-5xl font-extrabold text-primary-black">
-            Buat Blog Baru
+            Make a new Blog
           </h1>
         </header>
 
