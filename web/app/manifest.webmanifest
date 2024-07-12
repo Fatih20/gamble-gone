@@ -1,0 +1,14 @@
+{
+  "name": "GambleGone",
+  "short_name": "GambleGone",
+  "start_url": "https://gamble-gone.vercel.app/",
+  "display": "browser",
+  "description": "GambleGone aims to bridge this gap by providing comprehensive support and guidance through advanced AI-generated tools and personalized resources. GambleGone is dedicated to making a meaningful difference in the lives of those affected by gambling addiction, offering a lifeline to recovery and a brighter, addiction-free future.",
+  "icons": [
+    {
+      "src": "/icon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}

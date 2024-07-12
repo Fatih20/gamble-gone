@@ -3,6 +3,20 @@ import { CarouselHome } from "./carousel-home";
 import { HotlineSection } from "./hotline";
 import { WhatTheySay } from "./what-they-say";
 import { WhatWeOffer } from "./what-we-offer";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "GambleGone",
+  },
+};
 
 export const revalidate = 86400;
 

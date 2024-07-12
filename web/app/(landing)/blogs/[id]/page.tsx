@@ -1,9 +1,11 @@
 import { PlateRender } from "@/components/plate-ui/plate-render";
 import RankBadge from "@/components/ui/rank-badge";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { prisma } from "@/lib/prisma";
 // import { mockPosts } from "@/mock-data/posts";
 import { Posts } from "@/types/posts";
 import { ArrowLeft } from "lucide-react";
+import { type Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -18,6 +20,36 @@ export async function generateStaticParams() {
   return posts.map((post) => ({
     id: post.id,
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  // Get blogs data
+  const blogID = params.id;
+  const posts = await prisma.post.findUnique({
+    where: { id: blogID },
+  });
+
+  if (!posts) {
+    return notFound();
+  }
+
+  const title = `${posts.title} | GambleGone`;
+
+  return {
+    title: title,
+    openGraph: {
+      ...openGraphTemplate,
+      title: title,
+    },
+    twitter: {
+      ...twitterTemplate,
+      title: title,
+    },
+  };
 }
 
 export default async function BlogsDetail({ params }: { params: Params }) {

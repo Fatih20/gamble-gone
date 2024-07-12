@@ -7,9 +7,23 @@ import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options"
 import RankBadge from "@/components/ui/rank-badge";
 import { Separator } from "@/components/ui/separator";
 import { H1 } from "@/components/ui/typography";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { getUserPoints } from "@/lib/queries/profile";
 import { getUserTasksForToday } from "@/lib/queries/tasks";
+import { type Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Dashboard | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Dashboard | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Dashboard | GambleGone",
+  },
+};
 
 const DashboardPage = async () => {
   const session = await getServerAuthSession();

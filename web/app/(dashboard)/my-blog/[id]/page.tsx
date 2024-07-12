@@ -1,11 +1,25 @@
 import { EditBlogForm } from "./edit-blog-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { prisma } from "@/lib/prisma";
 import { Value } from "@udecode/plate";
 import { ArrowLeft } from "lucide-react";
+import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Edit Blog | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Edit Blog | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Edit Blog | GambleGone",
+  },
+};
 
 interface Params {
   id: string;

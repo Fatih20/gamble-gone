@@ -2,13 +2,27 @@ import { EditDeleteButton } from "./edit-delete-button";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { prisma } from "@/lib/prisma";
 import { type Posts } from "@/types/posts";
 import { Value } from "@udecode/plate";
 import { Plus } from "lucide-react";
+import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "My Blog | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "My Blog | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "My Blog | GambleGone",
+  },
+};
 
 export default async function MyBlog() {
   // Get session data

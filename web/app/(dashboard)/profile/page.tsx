@@ -2,9 +2,23 @@ import ProfileForm from "./profile-form";
 import ReviewForm from "./review-form";
 import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
 import { H1 } from "@/components/ui/typography";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { getUserProfile } from "@/lib/queries/profile";
 import { getUserReview } from "@/lib/queries/review";
+import { type Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Profile | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Profile | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Profile | GambleGone",
+  },
+};
 
 const ProfilePage = async () => {
   const session = await getServerAuthSession();

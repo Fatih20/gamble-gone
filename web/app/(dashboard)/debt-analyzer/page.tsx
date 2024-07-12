@@ -1,9 +1,23 @@
 import DebtSummary from "./debt-summary";
 import NoDebtView from "./no-debt-view";
 import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { getUserDebt } from "@/lib/queries/debt";
+import { type Metadata } from "next";
 // import { mockDebtManagerTransactions } from "@/mock-data/transaction";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Debt Manager | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Debt Manager | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Debt Manager | GambleGone",
+  },
+};
 
 export default async function DebtManagerPage() {
   // Mock get data from query

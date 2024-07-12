@@ -132,7 +132,7 @@ function RehabilitationCard({ rehabPlace }: { rehabPlace: RehabPlace }) {
         </p>
       </header>
 
-      <Link href={mapURL}>
+      <Link href={mapURL} target="_blank">
         <Button
           className="w-full font-bold rounded-full"
           variant="purple"
