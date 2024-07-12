@@ -55,8 +55,36 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       // Runs when jwt is created
+
+      if (trigger === "update") {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: token.id,
+          },
+        });
+        if (user) {
+          const {
+            id,
+            birthDate,
+            gamblingDuration,
+            gamblingStory,
+            gender,
+            name,
+            username,
+            whyStop,
+          } = user;
+          token.id = id;
+          token.username = username;
+          token.name = name;
+          token.age = differenceInYears(new Date(), new Date(birthDate));
+          token.whyStop = whyStop;
+          token.gamblingDuration = gamblingDuration;
+          token.gamblingStory = gamblingStory;
+          token.gender = gender;
+        }
+      }
 
       if (user) {
         const {
@@ -101,7 +129,7 @@ export const authOptions: AuthOptions = {
     maxAge: 86400,
   },
   pages: {
-    signIn: "/auth/sign-in",
+    signIn: "/auth/login",
     error: "/auth/error",
   },
 };

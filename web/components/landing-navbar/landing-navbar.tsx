@@ -53,7 +53,7 @@ export const LandingNavbar = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/auth/sign-in">
+                <Link href="/auth/login">
                   <Button
                     variant="white"
                     className="rounded-full px-7 font-bold"

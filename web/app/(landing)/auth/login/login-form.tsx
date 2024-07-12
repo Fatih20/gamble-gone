@@ -34,25 +34,37 @@ const LoginForm = () => {
   const onSubmit = async (data: z.infer<typeof SignInRequestSchema>) => {
     const toastId = toast.loading("Signing in...");
     const { username, password } = data;
-    await signIn("credentials", {
-      redirect: false,
-      username,
-      password,
-      callbackUrl: "/dashboard",
-    }).then((res) => {
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        username,
+        password,
+        callbackUrl: "/dashboard",
+      });
+
       toast.dismiss(toastId);
+
       if (res?.error) {
-        console.error("Sign in error:", res.error);
+        const errorData = JSON.parse(res.error); // Parse the error response
         toast.error("Sign in error", {
-          description: res.error,
+          description: errorData.message,
         });
       } else {
         toast.success("Sign in success", {
-          description: "Mohon tunggu!",
+          description: "Please wait!",
         });
         router.push("/dashboard");
       }
-    });
+    } catch (error: any) {
+      toast.dismiss(toastId);
+
+      const errormsg = JSON.parse(error);
+
+      console.error("Unexpected error:", error);
+      toast.error("Sign in error", {
+        description: errormsg,
+      });
+    }
   };
   return (
     <div className="flex w-full flex-col items-center justify-center">

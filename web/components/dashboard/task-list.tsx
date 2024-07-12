@@ -24,7 +24,7 @@ interface TaskListProps {
 const TaskListComp: React.FC<TaskListProps> = ({ tasks }) => {
   const router = useRouter();
   const onSubmit = async (id: string) => {
-    const toastId = toast.loading("Menyelesaikan task...");
+    const toastId = toast.loading("Submitting task...");
     const formData = new FormData();
     formData.append("taskStatus", "true");
 

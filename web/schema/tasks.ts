@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const AddTaskSchema = z.object({
   taskName: z.string({ message: "Task Name harus diisi" }),
-  taskPoints: z
+  taskPoints: z.coerce
     .number({ message: "Task Points harus diisi" })
     .min(1, { message: "Task Points Minimal 1" }),
   taskDescription: z.string({ message: "Task Description harus diisi" }),
