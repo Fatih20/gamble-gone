@@ -36,7 +36,7 @@ const DashboardPage = async () => {
       <section className="flex w-full flex-row gap-10 max-w-7xl">
         <div className="flex w-[50%] flex-col gap-3">
           <TaskProgress points={points} />
-          <Quotes quotes="Tidak ada istilah gagal dalam hidup, yang ada hanya sukses dan belum berhasil. Jangan menyerah!" />
+          <Quotes quotes="There is no such thing as failure, its just a matter of time." />
         </div>
 
         <TaskList Tasks={DailyTasks} />

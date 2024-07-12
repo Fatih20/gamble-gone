@@ -62,7 +62,7 @@ export default async function MyBlog() {
               variant="green"
             >
               <Plus className="mr-2 text-primary-black" />
-              Tambah Blog
+              Create Blog
             </Button>
           </Link>
         </header>
