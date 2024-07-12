@@ -1,8 +1,22 @@
 import { Chat } from "./chat";
 import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { prisma } from "@/lib/prisma";
 import { Message } from "@/types/message";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "AI Help Chat | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "AI Help Chat | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "AI Help Chat | GambleGone",
+  },
+};
 
 export default async function ChatPage() {
   const session = await getServerAuthSession();

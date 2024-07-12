@@ -1,6 +1,20 @@
 import LoginForm from "./login-form";
 import { H1, P } from "@/components/ui/typography";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
+import { type Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Log In | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Log In | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Log In | GambleGone",
+  },
+};
 
 const signInPage = () => {
   return (

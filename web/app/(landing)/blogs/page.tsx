@@ -1,6 +1,20 @@
 import { BlogCard } from "./blog-card";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { prisma } from "@/lib/prisma";
 import { Value } from "@udecode/plate";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blogs | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Blogs | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Blogs | GambleGone",
+  },
+};
 
 export default async function Blogs() {
   // Get blogs data

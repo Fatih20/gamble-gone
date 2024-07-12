@@ -3,9 +3,22 @@ import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options"
 import TaskListComp from "@/components/dashboard/task-list";
 import { Separator } from "@/components/ui/separator";
 import { H1, H2 } from "@/components/ui/typography";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { getUserTasksForToday, getWeeklyHistory } from "@/lib/queries/tasks";
-import { get } from "http";
+import { type Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Task | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Task | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Task | GambleGone",
+  },
+};
 
 const TaskPage = async () => {
   const session = await getServerAuthSession();

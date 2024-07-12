@@ -1,9 +1,23 @@
 import { CreateBlogForm } from "./create-blog-form";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
+import { openGraphTemplate, twitterTemplate } from "@/lib/metadata";
 import { ArrowLeft } from "lucide-react";
+import { type Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Create Blog | GambleGone",
+  openGraph: {
+    ...openGraphTemplate,
+    title: "Create Blog | GambleGone",
+  },
+  twitter: {
+    ...twitterTemplate,
+    title: "Create Blog | GambleGone",
+  },
+};
 
 export default async function CreateBlogPage() {
   const session = await getServerSession(authOptions);
