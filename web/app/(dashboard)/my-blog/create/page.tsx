@@ -1,8 +1,16 @@
 import { CreateBlogForm } from "./create-blog-form";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { ArrowLeft } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function CreateBlogPage() {
+export default async function CreateBlogPage() {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/auth/login");
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center bg-white p-24">
       <section className="flex w-full max-w-7xl flex-col gap-8">

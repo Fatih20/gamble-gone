@@ -1,15 +1,22 @@
 import { EditBlogForm } from "./edit-blog-form";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { prisma } from "@/lib/prisma";
 import { Value } from "@udecode/plate";
 import { ArrowLeft } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 interface Params {
   id: string;
 }
 
 export default async function EditBlogPage({ params }: { params: Params }) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/auth/login");
+  }
+
   // Get id
   const blogID = params.id;
 
