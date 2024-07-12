@@ -14,6 +14,7 @@ export type DebtTransaction = {
   type: DebtTransactionType;
   amount: number;
   date: string;
+  note?: string;
 };
 
 const promptString = `
@@ -24,7 +25,8 @@ The debt history that you'll be given is a list of transaction, formatted in the
     {{
         "date" : string, // the date in which the payment is done. It's formatted in month/day/year
         "amount" : number, // the transaction value in Indonesia Rupiah
-        "type" : "payment" | "relapse", // the type of transaction. "payment" means that the gambler paid their debt by the given amount. "relapse" means that the gambler increased their debt by the given amount
+        "type" : "payment" | "relapse", // the type of transaction. "payment" means that the gambler paid their debt by the given amount. "relapse" means that the gambler increased their debt by the given amount,
+        "note": string // any relevant note that comes with this transaction. This property does not always exist
     }},
     ...
 ]
@@ -34,7 +36,8 @@ Example:
     {{
         "date" : "9/15/2024",
         "amount": 2000000,
-        "type": "relapse" 
+        "type": "relapse",
+        "note": "I got back into using the CasinoFun app and wound up going into more debt by borrowing the money I lost from my parents" 
     }},
     {{
         "date" : "8/15/2024",
@@ -91,14 +94,9 @@ export class DebtAnalyser {
   }
 
   public static getInstance(): DebtAnalyser {
-    console.log("Prev instance:");
-    console.log(DebtAnalyser.instance);
     if (!DebtAnalyser.instance) {
       DebtAnalyser.instance = new DebtAnalyser();
     }
-    console.log("");
-    console.log("After instance:");
-    console.log(DebtAnalyser.instance);
     return DebtAnalyser.instance;
   }
 

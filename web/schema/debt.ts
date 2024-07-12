@@ -12,6 +12,7 @@ export const DebtAnalysisSchema = z.object({
       amount: z
         .number({ message: "Transaction amount is required!" })
         .min(0, { message: "Transaction amount cannot be less than 0" }),
+      note: z.string().optional(),
     }),
   ),
 });

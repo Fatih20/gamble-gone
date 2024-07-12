@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { H4, P } from "@/components/ui/typography";
 import { DebtManager } from "@prisma/client";
-import { useChat } from "ai/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 interface DebtAnalyzerProps {
@@ -20,10 +19,11 @@ export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
     setText("");
     const body = {
       currentDebt,
-      debtTransactions: history.map((debt) => ({
-        amount: debt.amount,
-        type: debt.type,
-        date: debt.createdAt,
+      debtTransactions: history.map(({ amount, type, createdAt, note }) => ({
+        amount: amount,
+        type: type,
+        date: createdAt.toLocaleDateString(),
+        note: note,
       })),
     };
 
