@@ -2,6 +2,7 @@ import { getServerAuthSession } from "../auth/[...nextauth]/auth-options";
 import { DebtAnalyser } from "@/lib/ai/debtAnalyser";
 import { getZodParsingErrorFields } from "@/lib/zod";
 import { DebtAnalysisSchema } from "@/schema/debt";
+import { StreamingTextResponse } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -32,7 +33,7 @@ export const POST = async (req: NextRequest) => {
   const { currentDebt, debtTransactions } = parseResult.data;
 
   // This is a placeholder. Get the gambler's actual background from the session.
-  const background = `${session.gamblingStory} i have been gambling for ${session.gamblingDuration} months. I want to stop because ${session.whyStop}`;
+  const background = `${session.gamblingStory}. I have been gambling for ${session.gamblingDuration} months. I want to stop because ${session.whyStop}`;
 
   const debtAnalyser = DebtAnalyser.getInstance();
   const analysis = await debtAnalyser.ask(
@@ -41,5 +42,5 @@ export const POST = async (req: NextRequest) => {
     background,
   );
 
-  return NextResponse.json({ analysis });
+  return new StreamingTextResponse(analysis);
 };

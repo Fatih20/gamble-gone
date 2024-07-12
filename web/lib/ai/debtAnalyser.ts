@@ -80,6 +80,7 @@ export class DebtAnalyser {
       model: "claude-3-5-sonnet-20240620",
       temperature: 0.4,
       anthropicApiKey: envVar.anthropicAPIKey,
+      streaming: true,
     });
     this.llm = wrapSDK(llm);
     const prompt = PromptTemplate.fromTemplate(promptString);
@@ -107,7 +108,7 @@ export class DebtAnalyser {
     background: string,
     chain: Runnable<any, string, RunnableConfig>,
   ) {
-    return await chain.invoke({
+    return await chain.stream({
       currentDebt,
       debtTransactions: JSON.stringify(debtTransactions),
       background,
@@ -119,11 +120,12 @@ export class DebtAnalyser {
     debtTransactions: DebtTransaction[],
     background: string,
   ) {
-    return await traceable(this.askUnwrapped)(
+    const res = await traceable(this.askUnwrapped)(
       currentDebt,
       debtTransactions,
       background,
       this.chain,
     );
+    return res;
   }
 }

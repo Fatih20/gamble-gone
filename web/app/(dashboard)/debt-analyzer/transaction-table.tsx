@@ -30,7 +30,7 @@ export function TransactionTable({
           {transactions.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center">
-                No debt found.
+                No debt payment/relapse found.
               </TableCell>
             </TableRow>
           ) : (
