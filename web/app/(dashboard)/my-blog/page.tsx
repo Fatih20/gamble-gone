@@ -97,7 +97,7 @@ function MyBlogCard({ data }: { data: Posts }) {
 
           {data.createdBy && <Badge variant="Newborn">Anonymous</Badge>}
         </div>
-        <h2 className="text-2xl font-bold italic text-primary-black">
+        <h2 className="text-2xl font-bold italic text-primary-black line-clamp-3">
           {data.title}
         </h2>
       </header>

@@ -1,9 +1,23 @@
+import { authOptions } from "../auth/[...nextauth]/auth-options";
 import { Chatbot } from "@/lib/ai/chatbot";
+import { prisma } from "@/lib/prisma";
 import { getZodParsingErrorFields } from "@/lib/zod";
 import { ChatSchema } from "@/schema/chat";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized",
+      },
+      { status: 401 },
+    );
+  }
+
   const rawData = await req.json();
   const parseResult = await ChatSchema.safeParseAsync(rawData);
   if (!parseResult.success) {
@@ -21,19 +35,67 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
   const chatbot = await Chatbot.getInstance();
 
-  const answer = await chatbot.ask({
-    question,
-    gamblingDuration: `${5}`,
-    gamblingStory:
-      "I got into gambling because after I lost my job working in the factory for 8 years. When I was down and out back at that time, I was intrigued by an ad for a gambling app acessible by my phone. I was instantly hooked and couldn't stop. I quickly blew through my savings and gambled it all away. When it has ran out, I borrowed as much money as possible.",
-    whyStop:
-      "I've incurred so much debt to finance my gambling thus far and I want to stop before I dig this hole even further.",
-  });
+  const { id } = session;
 
-  return NextResponse.json(
-    {
-      answer,
-    },
-    { status: 200 },
-  );
+  try {
+    const chatMessageHistory = await prisma.chatMessage.findMany({
+      where: { userId: { equals: id } },
+      orderBy: { createdAt: "asc" },
+      select: { role: true, content: true },
+    });
+
+    const chatMessageHistoryString = chatMessageHistory
+      .map(({ content, role }) => {
+        return `${role === "ai" ? "You" : "Gambler"}: ${content}`;
+      })
+      .join("\n\n");
+
+    try {
+      await prisma.chatMessage.create({
+        data: { userId: id, content: question, role: "user" },
+      });
+    } catch (e) {
+      return NextResponse.json(
+        {
+          message: "Problem when adding user messages to history",
+        },
+        { status: 500 },
+      );
+    }
+
+    const answer = await chatbot.ask({
+      chatMessageHistory: chatMessageHistoryString,
+      question,
+      gamblingDuration: `${session.gamblingDuration}`,
+      gamblingStory: session.gamblingStory,
+      whyStop: session.whyStop,
+    });
+
+    try {
+      await prisma.chatMessage.create({
+        data: { userId: id, content: answer, role: "ai" },
+      });
+    } catch (e) {
+      return NextResponse.json(
+        {
+          message: "Problem when adding AI answer to history",
+        },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        answer,
+      },
+      { status: 200 },
+    );
+  } catch (e) {
+    return NextResponse.json(
+      {
+        message: "Problem when fetching user messages",
+      },
+      { status: 500 },
+    );
+  }
 };

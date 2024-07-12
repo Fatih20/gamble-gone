@@ -1,90 +1,59 @@
-import { Button } from "@/components/ui/button";
-import { H1 } from "@/components/ui/typography";
-import React from "react";
+import { BlogCard } from "@/app/(landing)/blogs/page";
+import { prisma } from "@/lib/prisma";
+import { Value } from "@udecode/plate";
 
-// Define the Article type
-interface Article {
-  id: string;
-  title: string;
-  content: string;
-  isAnonymous: boolean;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-  user: {
-    name: string;
-  };
-}
-
-// Props for ArticleCard component
-interface ArticleCardProps {
-  Article: Article;
-}
-
-const ArticleCard: React.FC<ArticleCardProps> = ({ Article }) => {
-  return (
-    <div className="rounded-lg border p-4 shadow-md">
-      <div className="text-sm text-gray-500">
-        {new Date(Article.createdAt).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })}
-      </div>
-      <div className="mb-4 mt-2 text-lg font-bold">{Article.title}</div>
-      <div className="mb-2 text-gray-700">
-        {Article.isAnonymous ? "Anonymous" : Article.user.name}
-      </div>
-      <div className="mb-4 text-sm text-gray-600">{Article.content}</div>
-      <Button variant={"purple"} size={"lg"}>
-        Baca Selengkapnya
-      </Button>
-    </div>
-  );
-};
-
-const ArticleList = () => {
-  const Articles: Article[] = [
-    {
-      id: "1",
-      title: "Dulu Ku Tak Punya Uang Sekarang Ku Bahagia",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque habitant morbi tristique senectus. Interdum velit laoreet",
-      isAnonymous: false,
-      userId: "1",
-      createdAt: "2024-01-13T00:00:00Z",
-      updatedAt: "2024-01-13T00:00:00Z",
+export async function ArticleList() {
+  // Get 3 latest articles from DB
+  const articles = await prisma.post.findMany({
+    include: {
       user: {
-        name: "b3b4sJsIxx",
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          totalPoints: true,
+        },
       },
     },
-    {
-      id: "2",
-      title: "Dulu Ku Tak Punya Uang Sekarang Ku Bahagia",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque habitant morbi tristique senectus. Interdum velit laoreet",
-      isAnonymous: false,
-      userId: "1",
-      createdAt: "2024-01-13T00:00:00Z",
-      updatedAt: "2024-01-13T00:00:00Z",
-      user: {
-        name: "b3b4sJsIxx",
-      },
+    orderBy: {
+      createdAt: "desc",
     },
-  ];
+    take: 3,
+  });
 
+  const data = articles.map((post) => {
+    return {
+      id: post.id,
+      title: post.title,
+      previewText: post.previewText,
+      content: post.content as Value,
+      createdAt: post.createdAt,
+      createdBy: post.isAnonymous ? null : post.user,
+    };
+  });
+
+  // If articles exist
   return (
-    <div className="flex flex-col gap-5">
-      <H1 className="mb-4 font-bold" level={"3xl"}>
-        Articles just for You
-      </H1>
-      <div className="flex flex-row gap-10">
-        {Articles.map((Article) => (
-          <ArticleCard key={Article.id} Article={Article} />
-        ))}
-      </div>
-    </div>
-  );
-};
+    <section className="flex flex-col items-start w-full gap-8 max-w-7xl">
+      <header>
+        <h1 className="font-extrabold text-3xl text-primary-black">
+          Articles For You!
+        </h1>
+      </header>
 
-export default ArticleList;
+      {articles.length === 0 ? (
+        <div className="text-xl font-medium self-center">
+          Article recommendation is empty.
+        </div>
+      ) : (
+        <ul className="grid grid-cols-3 gap-8">
+          {data.map((article) => (
+            <li key={article.id} className="flex">
+              <BlogCard data={article} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}

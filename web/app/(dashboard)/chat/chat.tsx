@@ -14,8 +14,8 @@ const templateQuestion = [
   "Tell me ways to stop my addiction.",
 ];
 
-export function Chat() {
-  const [messages, setMessages] = useState<Message[]>([]);
+export function Chat({ message }: { message: Message[] }) {
+  const [messages, setMessages] = useState(message);
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [processing, setProcessing] = useState(false);
   const [disabledInput, setDisabledInput] = useState(false);
@@ -69,24 +69,26 @@ export function Chat() {
     ]);
     setCurrentMessage("");
     try {
-      const result = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          type: "application/json",
-        },
-        body: JSON.stringify({
-          question: messageToSend,
-        }),
-      });
-      // const promise = new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve(true);
-      //   }, 1000);
+      // const result = await fetch("/api/chat", {
+      //   method: "POST",
+      //   headers: {
+      //     type: "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     question: messageToSend,
+      //   }),
       // });
-      // await promise;
-      // const answer = "Mock answer";
 
-      const { answer } = (await result.json()) as { answer: string };
+      // const { answer } = (await result.json()) as { answer: string };
+
+      const promise = new Promise((resolve) => {
+        setTimeout(() => resolve(true), 500);
+      });
+
+      await promise;
+
+      const answer = "Mock answer";
+
       setMessages((prev) => [
         ...prev,
         { id: prevId + 2, message: answer, sender: "ai" },
@@ -117,12 +119,13 @@ export function Chat() {
       <div className="flex flex-col gap-4 pb-4">
         <div className="bg-white px-16 relative">
           <div
-            className={`flex flex-col gap-4 absolute bottom-full ${templateVisible ? "translate-y-0 opacity-0 pointer-events-none" : "-translate-y-5 opacity-100"} transition-all p-4 bg-primary-white/50 rounded-lg backdrop-blur-sm`}
+            className={`flex flex-col gap-4 absolute bottom-full ${!templateVisible ? "translate-y-0 opacity-0 pointer-events-none" : "-translate-y-5 opacity-100"} transition-all p-4 bg-primary-white/50 rounded-lg backdrop-blur-sm`}
           >
             <div className="text-primary-purple text-lg font-bold">FAQ</div>
             {templateQuestion.map((question) => {
               return (
                 <button
+                  key={question}
                   onClick={() => setCurrentMessage(question)}
                   className="rounded-xl w-fit text-sm p-2 bg-primary-purple text-primary-white"
                 >
@@ -139,11 +142,14 @@ export function Chat() {
               placeholder="Write what you would like to ask"
               className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
             />
-            <button className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray">
+            <button
+              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
+              onClick={() => {
+                console.log("Clicking template chevron");
+                setTemplateVisible((prev) => !prev);
+              }}
+            >
               <ChevronDown
-                onClick={() => {
-                  setTemplateVisible((prev) => !prev);
-                }}
                 className={`${templateVisible ? "rotate-180" : "rotate-0"} transition-all`}
               />
             </button>

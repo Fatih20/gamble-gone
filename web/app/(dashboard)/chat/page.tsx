@@ -1,6 +1,34 @@
 import { Chat } from "./chat";
+import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
+import { prisma } from "@/lib/prisma";
+import { Message } from "@/types/message";
+import { redirect } from "next/navigation";
 
-export default function ChatPage() {
+export default async function ChatPage() {
+  const session = await getServerAuthSession();
+
+  if (!session) {
+    redirect("/auth/login");
+  }
+
+  const { id } = session;
+
+  const chatMessageHistoryRaw = await prisma.chatMessage.findMany({
+    where: { userId: { equals: id } },
+    orderBy: { createdAt: "asc" },
+    select: { role: true, content: true, id: true },
+  });
+
+  const chatMessageHistory = chatMessageHistoryRaw.map(
+    ({ content, role, id }) => {
+      return {
+        id,
+        message: content,
+        sender: role,
+      } as Message;
+    },
+  );
+
   return (
     <main className="flex min-h-screen max-h-screen h-screen">
       <section className="flex w-full flex-col h-full max-h-screen">
@@ -17,7 +45,7 @@ export default function ChatPage() {
         </header>
 
         {/* Chat Content */}
-        <Chat />
+        <Chat message={chatMessageHistory} />
       </section>
     </main>
   );
