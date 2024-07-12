@@ -1,3 +1,4 @@
+import { PlateRender } from "@/components/plate-ui/plate-render";
 import { Badge } from "@/components/ui/badge";
 import { mockPosts } from "@/mock-data/posts";
 import { ArrowLeft } from "lucide-react";
@@ -73,7 +74,7 @@ export default function BlogsDetail({ params }: { params: Params }) {
 
         {/* Content */}
         <div className="mx-8 mt-8 text-lg text-primary-black">
-          <p>{blog.content}</p>
+          <PlateRender initialValue={blog.content} />
         </div>
       </article>
     </main>

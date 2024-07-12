@@ -1,39 +1,45 @@
+import { DeleteBlogButton } from "./delete-blog-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { mockPosts } from "@/mock-data/posts";
 import { type Posts } from "@/types/posts";
+import { Edit, Plus } from "lucide-react";
 import Link from "next/link";
 
-export default function Blogs() {
+export default function MyBlog() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-white p-24">
-      <section className="flex w-full max-w-7xl flex-col items-center gap-12">
-        {/* Title */}
-        <div className="w-full max-w-4xl">
-          <h1 className="text-center text-6xl font-extrabold text-primary-black">
-            Blog
+    <main className="flex min-h-screen flex-col items-center bg-white p-24">
+      <section className="flex w-full max-w-7xl flex-col gap-8">
+        <header className="flex flex-row justify-between">
+          <h1 className="text-5xl font-extrabold text-primary-black">
+            My Blog
           </h1>
-          <p className="mt-3 text-center text-3xl font-medium text-primary-purple">
-            Baca cerita dari pengalaman para pengguna BersihBet
-          </p>
-        </div>
 
-        {/*  */}
+          <Link href="/my-blog/create">
+            <Button
+              className="rounded-full px-5 font-bold"
+              size="lg"
+              variant="green"
+            >
+              <Plus className="mr-2 text-primary-black" />
+              Tambah Blog
+            </Button>
+          </Link>
+        </header>
+
         <ul className="grid grid-cols-2 gap-8 2xl:grid-cols-3">
-          {mockPosts.map((post) => {
-            return (
-              <li key={post.id} className="flex">
-                <BlogCard data={post} />
-              </li>
-            );
-          })}
+          {mockPosts.map((post) => (
+            <li key={post.id} className="flex">
+              <MyBlogCard data={post} />
+            </li>
+          ))}
         </ul>
       </section>
     </main>
   );
 }
 
-function BlogCard({ data }: { data: Posts }) {
+function MyBlogCard({ data }: { data: Posts }) {
   return (
     <article className="flex flex-col gap-2 rounded-2xl border bg-secondary-white p-6">
       {/* Header */}
@@ -67,11 +73,18 @@ function BlogCard({ data }: { data: Posts }) {
         </p>
 
         {/* Detail Button */}
-        <Link href={`/blogs/${data.id}`} className="self-end">
-          <Button variant="purple" className="rounded-full px-5 font-bold">
-            Baca Selengkapnya
-          </Button>
-        </Link>
+        <div className="flex flex-row items-center gap-3 self-end">
+          {/* Delete Blog */}
+          <DeleteBlogButton />
+
+          {/* Edit Blog */}
+          <Link href={`/my-blog/${data.id}`}>
+            <Button variant="purple" className="rounded-full px-5 font-bold">
+              <Edit className="mr-2 size-5" />
+              Edit
+            </Button>
+          </Link>
+        </div>
       </div>
     </article>
   );

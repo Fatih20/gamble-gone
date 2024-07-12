@@ -1,6 +1,6 @@
 import { DeviceSelection } from "./device-selection";
 import "./globals.css";
-// import { TooltipProvider } from "@/components/plate-ui/tooltip";
+import { TooltipProvider } from "@/components/plate-ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
@@ -21,13 +21,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={raleway.className}>
         <DeviceSelection>
-          {/* <TooltipProvider
+          <TooltipProvider
             disableHoverableContent
             delayDuration={500}
             skipDelayDuration={0}
-          > */}
-          {children}
-          {/* </TooltipProvider> */}
+          >
+            {children}
+          </TooltipProvider>
           <Toaster richColors />
         </DeviceSelection>
       </body>
