@@ -486,6 +486,7 @@ const main = async () => {
       gamblingDuration: faker.number.int({ min: 1, max: 24 }),
       whyStop:
         reasonStops[faker.number.int({ min: 0, max: reasonStops.length - 1 })],
+      totalPoints: faker.number.int({ min: 0, max: 600 }),
     }),
   );
 
