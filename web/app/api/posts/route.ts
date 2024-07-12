@@ -53,6 +53,8 @@ export const POST = async (req: NextRequest) => {
   const content = parseRichContentResult.data;
   const userID = session.id;
 
+  console.log(title, previewText, isAnonymous, content);
+
   // Create post
   let data;
   try {
@@ -66,6 +68,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
   } catch (e) {
+    console.log(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // Prisma error
       return NextResponse.json(

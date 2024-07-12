@@ -13,10 +13,44 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "react-query";
+import { toast } from "sonner";
 
-export function DeleteBlogButton() {
+interface DeleteBlogButtonProps {
+  blogID: string;
+}
+
+export function DeleteBlogButton({ blogID }: DeleteBlogButtonProps) {
+  const router = useRouter();
+
+  const deleteBlog = async (blogID: string) => {
+    const result = await fetch(`/api/posts/${blogID}`, {
+      method: "DELETE",
+    });
+    const resJSON = await result.json();
+
+    if (!result.ok) {
+      throw new Error(resJSON.message ?? "Failed to delete blog!");
+    }
+  };
+
+  const mutation = useMutation(deleteBlog, {
+    onSuccess: () => {
+      // Refresh
+      toast.success("Success", { description: "Blog deleted successfully!" });
+      router.refresh();
+    },
+    onError: (error) => {
+      // Show error toast
+      toast.error("Error", {
+        description: String(error) ?? "An error occurred while deleting blog!",
+      });
+    },
+  });
+
   const handleDelete = async () => {
-    // Delete blog
+    mutation.mutate(blogID);
   };
 
   return (

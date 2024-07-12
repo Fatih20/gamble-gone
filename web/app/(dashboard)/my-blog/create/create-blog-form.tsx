@@ -17,8 +17,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { CreatePostsSchema } from "@/schema/posts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Value } from "@udecode/plate-common";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export function CreateBlogForm() {
@@ -32,11 +36,43 @@ export function CreateBlogForm() {
     },
   });
 
+  const router = useRouter();
+
+  const createNewBlog = async (values: z.infer<typeof CreatePostsSchema>) => {
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("previewText", values.previewText);
+    formData.append("content", values.content);
+    formData.append("isAnonymous", values.isAnonymous.toString());
+
+    const result = await fetch("/api/posts", {
+      method: "POST",
+      body: formData,
+    });
+    const resJSON = await result.json();
+
+    if (!result.ok) {
+      throw new Error(resJSON.message ?? "Failed to create blog!");
+    }
+  };
+
+  const mutation = useMutation(createNewBlog, {
+    onSuccess: () => {
+      // Refresh & push to posts page
+      toast.success("Success!", { description: "Blog created successfully" });
+      router.refresh();
+      router.push("/my-blog");
+    },
+    onError: (error) => {
+      // Show error toast
+      toast.error("Error!", {
+        description: String(error) ?? "Failed to create blog!",
+      });
+    },
+  });
+
   function onSubmit(values: z.infer<typeof CreatePostsSchema>) {
-    // Parse value into array
-    const val = JSON.parse(values.content);
-    console.log("ayam");
-    console.log(values);
+    mutation.mutate(values);
   }
 
   // Watch editorValue changes
@@ -69,7 +105,11 @@ export function CreateBlogForm() {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Title" {...field} />
+                <Input
+                  placeholder="Title"
+                  {...field}
+                  disabled={mutation.isLoading}
+                />
               </FormControl>
               <FormDescription>Title of your blog post.</FormDescription>
               <FormMessage />
@@ -85,7 +125,11 @@ export function CreateBlogForm() {
             <FormItem>
               <FormLabel>Preview Text</FormLabel>
               <FormControl>
-                <Textarea placeholder="Preview Text" {...field} />
+                <Textarea
+                  placeholder="Preview Text"
+                  disabled={mutation.isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Preview text of your blog post. This will be shown in the blog
@@ -111,6 +155,7 @@ export function CreateBlogForm() {
               <FormControl>
                 <Switch
                   checked={field.value}
+                  disabled={mutation.isLoading}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
@@ -126,7 +171,10 @@ export function CreateBlogForm() {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <PlateEditor setValue={setEditorValue} />
+                <PlateEditor
+                  readOnly={mutation.isLoading}
+                  setValue={setEditorValue}
+                />
               </FormControl>
               <FormDescription>Content of your blog post.</FormDescription>
               <FormMessage />
@@ -139,9 +187,17 @@ export function CreateBlogForm() {
           type="submit"
           size="lg"
           variant="green"
-          className="self-end px-16 font-bold"
+          className="self-end w-44 font-bold"
+          disabled={mutation.isLoading}
         >
-          Submit
+          {mutation.isLoading ? (
+            <>
+              <Loader className="animate-spin size-4 mr-2" />
+              Loading
+            </>
+          ) : (
+            <>Submit</>
+          )}
         </Button>
       </form>
     </Form>

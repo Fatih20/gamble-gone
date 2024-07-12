@@ -1,12 +1,52 @@
 import { DeleteBlogButton } from "./delete-blog-button";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { mockPosts } from "@/mock-data/posts";
+import { prisma } from "@/lib/prisma";
 import { type Posts } from "@/types/posts";
+import { Value } from "@udecode/plate";
 import { Edit, Plus } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function MyBlog() {
+export default async function MyBlog() {
+  // Get session data
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/auth/login");
+  }
+
+  // Get my blog data
+  const posts = await prisma.post.findMany({
+    where: {
+      user: {
+        id: session.id,
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  const data = posts.map((post) => {
+    return {
+      id: post.id,
+      title: post.title,
+      previewText: post.previewText,
+      content: post.content as Value,
+      createdAt: post.createdAt,
+      createdBy: post.isAnonymous
+        ? null
+        : {
+            id: post.user.id,
+            name: post.user.name,
+            username: post.user.username,
+            totalPoints: post.user.totalPoints,
+          },
+    };
+  });
+
   return (
     <main className="flex min-h-screen flex-col items-center bg-white p-24">
       <section className="flex w-full max-w-7xl flex-col gap-8">
@@ -27,13 +67,19 @@ export default function MyBlog() {
           </Link>
         </header>
 
-        <ul className="grid grid-cols-2 gap-8 2xl:grid-cols-3">
-          {mockPosts.map((post) => (
-            <li key={post.id} className="flex">
-              <MyBlogCard data={post} />
-            </li>
-          ))}
-        </ul>
+        {data.length === 0 ? (
+          <p className="font-medium text-lg text-center text-primary-black">
+            You have no posts
+          </p>
+        ) : (
+          <ul className="grid grid-cols-2 gap-8 2xl:grid-cols-3">
+            {data.map((dt) => (
+              <li key={dt.id} className="flex">
+                <MyBlogCard data={dt} />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );
@@ -41,29 +87,19 @@ export default function MyBlog() {
 
 function MyBlogCard({ data }: { data: Posts }) {
   return (
-    <article className="flex flex-col gap-2 rounded-2xl border bg-secondary-white p-6">
+    <article className="flex flex-auto flex-col gap-2 rounded-2xl border bg-secondary-white p-6">
       {/* Header */}
       <header>
-        <time className="text-base font-medium text-secondary-gray">
-          {data.createdAt.toDateString()}
-        </time>
+        <div className="flex flex-row justify-between">
+          <time className="text-base font-medium text-secondary-gray">
+            {data.createdAt.toDateString()}
+          </time>
+
+          {data.createdBy && <Badge variant="Newborn">Anonymous</Badge>}
+        </div>
         <h2 className="text-2xl font-bold italic text-primary-black">
           {data.title}
         </h2>
-        <div className="mt-1 flex flex-row items-center gap-2">
-          {data.createdBy ? (
-            <>
-              <p className="text-base font-medium text-primary-black">
-                {data.createdBy.name}
-              </p>
-              <Badge variant="green">{data.createdBy.rank}</Badge>
-            </>
-          ) : (
-            <p className="text-base font-medium text-primary-black">
-              Anonymous
-            </p>
-          )}
-        </div>
       </header>
 
       {/* Preview */}
@@ -75,7 +111,7 @@ function MyBlogCard({ data }: { data: Posts }) {
         {/* Detail Button */}
         <div className="flex flex-row items-center gap-3 self-end">
           {/* Delete Blog */}
-          <DeleteBlogButton />
+          <DeleteBlogButton blogID={data.id} />
 
           {/* Edit Blog */}
           <Link href={`/my-blog/${data.id}`}>

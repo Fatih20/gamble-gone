@@ -1,6 +1,7 @@
 import { getServerAuthSession } from "./api/auth/[...nextauth]/auth-options";
 import { DeviceSelection } from "./device-selection";
 import "./globals.css";
+import { QueryProvider } from "./query-provider";
 import SessionProviderClientComponent from "./session-provider";
 import { TooltipProvider } from "@/components/plate-ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
@@ -21,21 +22,23 @@ export default async function RootLayout({
 }>) {
   const session = await getServerAuthSession();
   return (
-    <SessionProviderClientComponent session={session}>
-      <html lang="en">
-        <body className={raleway.className}>
-          <DeviceSelection>
-            <TooltipProvider
-              disableHoverableContent
-              delayDuration={500}
-              skipDelayDuration={0}
-            >
-              {children}
-            </TooltipProvider>
-            <Toaster richColors />
-          </DeviceSelection>
-        </body>
-      </html>
-    </SessionProviderClientComponent>
+    <html lang="en">
+      <body className={raleway.className}>
+        <SessionProviderClientComponent session={session}>
+          <QueryProvider>
+            <DeviceSelection>
+              <TooltipProvider
+                disableHoverableContent
+                delayDuration={500}
+                skipDelayDuration={0}
+              >
+                {children}
+              </TooltipProvider>
+              <Toaster richColors />
+            </DeviceSelection>
+          </QueryProvider>
+        </SessionProviderClientComponent>
+      </body>
+    </html>
   );
 }

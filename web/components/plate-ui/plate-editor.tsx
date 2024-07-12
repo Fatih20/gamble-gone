@@ -12,11 +12,13 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 interface PlateEditorProps {
   setValue: (newValue: Value) => void;
+  readOnly: boolean;
   initialValue?: Value;
 }
 
 export function PlateEditor({
   setValue,
+  readOnly = false,
   initialValue,
   ...props
 }: PlateEditorProps) {
@@ -35,7 +37,7 @@ export function PlateEditor({
           <FixedToolbarButtons />
         </FixedToolbar>
 
-        <Editor {...props} className="h-80" />
+        <Editor {...props} readOnly={readOnly} className="h-80" />
 
         <FloatingToolbar>
           <FloatingToolbarButtons />
