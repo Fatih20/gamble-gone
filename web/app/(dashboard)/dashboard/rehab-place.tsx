@@ -138,7 +138,7 @@ function RehabilitationCard({ rehabPlace }: { rehabPlace: RehabPlace }) {
           variant="purple"
           size="lg"
         >
-          Lihat di Peta
+          View on Map
         </Button>
       </Link>
     </article>
