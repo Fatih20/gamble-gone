@@ -37,14 +37,7 @@ export const GET = async (req: NextRequest) => {
       geoloc.region,
     );
   }
-  if (
-    !geoloc ||
-    (geoloc &&
-      (!geoloc.latitude || !geoloc.longitude) && // Lat & lon not complete
-      !geoloc.city &&
-      !geoloc.region &&
-      !geoloc.country)
-  ) {
+  if (!geoloc || !geoloc.latitude || !geoloc.longitude) {
     return NextResponse.json(
       { message: "Failed to get user location" },
       { status: 400 },
@@ -53,15 +46,11 @@ export const GET = async (req: NextRequest) => {
 
   // Generate search params
   const keywordsArr: string[] = [];
-  if (geoloc.country?.toLowerCase() === "indonesia") {
+  if (geoloc.country?.toLowerCase() === "ID") {
     keywordsArr.push("Pusat Rehabilitasi");
   } else {
     keywordsArr.push("Rehabilitation Center");
   }
-  keywordsArr.push("Rehabilitation Center");
-  if (geoloc.city) keywordsArr.push(geoloc.city);
-  if (geoloc.region) keywordsArr.push(geoloc.region);
-  if (geoloc.country) keywordsArr.push(geoloc.country);
   const keywords = keywordsArr.join(", ");
   console.log(keywords);
 
@@ -78,11 +67,9 @@ export const GET = async (req: NextRequest) => {
   const endpoint = new URL(baseURL);
   endpoint.searchParams.append("query", keywords);
   endpoint.searchParams.append("key", apiKey);
-  if (geoloc.latitude && geoloc.longitude) {
-    const location = `${geoloc.latitude},${geoloc.longitude}`;
-    endpoint.searchParams.append("location", location);
-    endpoint.searchParams.append("radius", radius.toString());
-  }
+  const location = `${geoloc.latitude},${geoloc.longitude}`;
+  endpoint.searchParams.append("location", location);
+  endpoint.searchParams.append("radius", radius.toString());
 
   // Get candidate data
   const res = await fetch(endpoint, {
