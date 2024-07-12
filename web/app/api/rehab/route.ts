@@ -29,6 +29,13 @@ export const GET = async (req: NextRequest) => {
   } else {
     // Production (real geolocation)
     geoloc = geolocation(req);
+    console.log(
+      geoloc.city,
+      geoloc.country,
+      geoloc.latitude,
+      geoloc.longitude,
+      geoloc.region,
+    );
   }
   if (
     !geoloc ||
@@ -56,6 +63,7 @@ export const GET = async (req: NextRequest) => {
   if (geoloc.region) keywordsArr.push(geoloc.region);
   if (geoloc.country) keywordsArr.push(geoloc.country);
   const keywords = keywordsArr.join(", ");
+  console.log(keywords);
 
   // Radius limit
   const radius = 5000;
