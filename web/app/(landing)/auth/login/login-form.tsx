@@ -54,6 +54,7 @@ const LoginForm = () => {
           description: "Please wait!",
         });
         router.push("/dashboard");
+        router.refresh();
       }
     } catch (error: any) {
       toast.dismiss(toastId);

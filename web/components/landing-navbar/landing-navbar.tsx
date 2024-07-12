@@ -17,11 +17,11 @@ export const LandingNavbar = async () => {
       href: "/blogs",
     },
     {
-      title: "features",
+      title: "Features",
       href: "/#features",
     },
     {
-      title: "hotline",
+      title: "Hotline",
       href: "/#hotline",
     },
   ];
@@ -45,7 +45,7 @@ export const LandingNavbar = async () => {
                 width={175}
                 height={43}
                 src="/logo-colored.png"
-                alt="BersihBet. Logo"
+                alt="GambleGon Logo"
                 className="h-10 w-auto"
                 sizes="180px"
               />

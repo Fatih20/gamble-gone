@@ -4,7 +4,6 @@ import { CodeLeaf } from "@/components/plate-ui/code-leaf";
 import { CodeLineElement } from "@/components/plate-ui/code-line-element";
 import { CodeSyntaxLeaf } from "@/components/plate-ui/code-syntax-leaf";
 import { Editor } from "@/components/plate-ui/editor";
-import { EmojiInputElement } from "@/components/plate-ui/emoji-input-element";
 import { FixedToolbar } from "@/components/plate-ui/fixed-toolbar";
 import { FixedToolbarButtons } from "@/components/plate-ui/fixed-toolbar-buttons";
 import { FloatingToolbar } from "@/components/plate-ui/floating-toolbar";

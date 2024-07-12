@@ -1,8 +1,7 @@
 import { PlateRender } from "@/components/plate-ui/plate-render";
-import { Badge } from "@/components/ui/badge";
 import RankBadge from "@/components/ui/rank-badge";
 import { prisma } from "@/lib/prisma";
-import { mockPosts } from "@/mock-data/posts";
+// import { mockPosts } from "@/mock-data/posts";
 import { Posts } from "@/types/posts";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";

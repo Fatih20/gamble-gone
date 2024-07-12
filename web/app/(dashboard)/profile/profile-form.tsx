@@ -147,6 +147,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ User }) => {
       toast.dismiss(toastId);
       toast.success("Logout success");
       router.push("/");
+      router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Logout error", {

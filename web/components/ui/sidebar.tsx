@@ -41,7 +41,7 @@ const Sidebar = () => {
     <aside className="z-60 fixed bottom-0 left-0 top-0 flex h-full min-h-screen w-60 flex-col items-center bg-primary-black">
       <Image
         src="/logo-bnw.png"
-        alt="Logo BersihBet"
+        alt="Logo GambleGone"
         width={170}
         height={40}
         className="pt-10"

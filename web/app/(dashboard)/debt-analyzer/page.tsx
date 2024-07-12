@@ -2,7 +2,7 @@ import DebtSummary from "./debt-summary";
 import NoDebtView from "./no-debt-view";
 import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
 import { getUserDebt } from "@/lib/queries/debt";
-import { mockDebtManagerTransactions } from "@/mock-data/transaction";
+// import { mockDebtManagerTransactions } from "@/mock-data/transaction";
 import { redirect } from "next/navigation";
 
 export default async function DebtManagerPage() {

@@ -1,4 +1,4 @@
-import { BlogCard } from "@/app/(landing)/blogs/page";
+import { BlogCard } from "@/app/(landing)/blogs/blog-card";
 import { prisma } from "@/lib/prisma";
 import { Value } from "@udecode/plate";
 

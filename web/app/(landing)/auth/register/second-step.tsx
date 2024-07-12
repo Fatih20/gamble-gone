@@ -199,7 +199,7 @@ const SecondStep: React.FC<SecondStepProps> = ({
             />
             <label htmlFor="agreement">
               By submitting this form, you agree to share your data with
-              BersihBet. This data will be used to help improve the user
+              GambleGone. This data will be used to help improve the user
               experience on this website.
             </label>
           </div>

@@ -1,84 +1,83 @@
 const tugas3Poin = [
   {
-    taskName: "Menulis Jurnal Harian",
+    taskName: "Writing Daily Journal",
     taskPoints: 3,
     taskDescription:
-      "Menulis pengalaman dan perasaan setiap hari untuk refleksi diri.",
+      "Writing daily experiences and feelings for self-reflection.",
   },
   {
-    taskName: "Membaca Artikel Motivasi",
+    taskName: "Reading Motivational Articles",
     taskPoints: 3,
     taskDescription:
-      "Membaca artikel yang memberikan motivasi untuk berhenti berjudi.",
+      "Reading articles that provide motivation to stop gambling.",
   },
   {
-    taskName: "Mengikuti Grup Dukungan Online",
+    taskName: "Joining Online Support Group",
     taskPoints: 3,
     taskDescription:
-      "Bergabung dengan grup dukungan online untuk mendapatkan dukungan dari orang lain yang memiliki tujuan yang sama.",
+      "Joining online support groups to get support from others with the same goals.",
   },
 ];
 
 const tugas4Poin = [
   {
-    taskName: "Latihan Meditasi",
+    taskName: "Meditation Practice",
     taskPoints: 4,
-    taskDescription:
-      "Melakukan latihan meditasi setiap hari untuk menenangkan pikiran.",
+    taskDescription: "Practicing meditation daily to calm the mind.",
   },
   {
-    taskName: "Menonton Video Edukasi",
+    taskName: "Watching Educational Videos",
     taskPoints: 4,
     taskDescription:
-      "Menonton video edukasi tentang efek negatif dari perjudian.",
+      "Watching educational videos about the negative effects of gambling.",
   },
   {
-    taskName: "Membuat Rencana Keuangan",
+    taskName: "Creating a Financial Plan",
     taskPoints: 4,
     taskDescription:
-      "Membuat dan mematuhi rencana keuangan untuk mengelola keuangan pribadi dengan lebih baik.",
+      "Creating and adhering to a financial plan to manage personal finances better.",
   },
 ];
 
 const tugas5Poin = [
   {
-    taskName: "Mengikuti Sesi Konseling",
+    taskName: "Attending Counseling Sessions",
     taskPoints: 5,
     taskDescription:
-      "Mengikuti sesi konseling dengan terapis yang berpengalaman dalam menangani kecanduan.",
+      "Attending counseling sessions with a therapist experienced in handling addiction.",
   },
   {
-    taskName: "Bergabung dengan Workshop Pengembangan Diri",
+    taskName: "Joining Self-Development Workshops",
     taskPoints: 5,
     taskDescription:
-      "Bergabung dengan workshop atau seminar yang berfokus pada pengembangan diri.",
+      "Joining workshops or seminars focused on self-development.",
   },
   {
-    taskName: "Mencatat Pemicu Perjudian",
+    taskName: "Recording Gambling Triggers",
     taskPoints: 5,
     taskDescription:
-      "Mencatat hal-hal yang memicu keinginan untuk berjudi dan mencari cara untuk mengatasinya.",
+      "Recording things that trigger the desire to gamble and finding ways to overcome them.",
   },
 ];
 
 const tugas6Poin = [
   {
-    taskName: "Membangun Hobi Baru",
+    taskName: "Building New Hobbies",
     taskPoints: 6,
     taskDescription:
-      "Mengembangkan hobi baru yang positif untuk mengalihkan perhatian dari perjudian.",
+      "Developing positive new hobbies to divert attention from gambling.",
   },
   {
-    taskName: "Melakukan Aktivitas Fisik",
+    taskName: "Engaging in Physical Activity",
     taskPoints: 6,
     taskDescription:
-      "Melakukan olahraga atau aktivitas fisik rutin untuk menjaga kesehatan tubuh dan pikiran.",
+      "Engaging in regular physical exercise to maintain physical and mental health.",
   },
   {
-    taskName: "Membuat Rencana Jangka Panjang",
+    taskName: "Creating Long-Term Plans",
     taskPoints: 6,
     taskDescription:
-      "Membuat rencana jangka panjang untuk kehidupan yang lebih baik tanpa perjudian.",
+      "Creating long-term plans for a better life without gambling.",
   },
 ];
 

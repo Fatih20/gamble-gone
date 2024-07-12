@@ -1,8 +1,7 @@
-import { Badge } from "@/components/ui/badge";
 import RankBadge from "@/components/ui/rank-badge";
 import Ratings from "@/components/ui/rating";
 import { prisma } from "@/lib/prisma";
-import { mockReviews } from "@/mock-data/review";
+// import { mockReviews } from "@/mock-data/review";
 import { type Review } from "@/types/review";
 
 export async function WhatTheySay() {
@@ -18,6 +17,10 @@ export async function WhatTheySay() {
         },
       },
     },
+    orderBy: {
+      rating: "desc",
+    },
+    take: 4,
   });
 
   const formatedReviews = reviews.map((review) => {

@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
-import RankBadge from "@/components/ui/rank-badge";
+import { BlogCard } from "./blog-card";
 import { prisma } from "@/lib/prisma";
-import { type Posts } from "@/types/posts";
 import { Value } from "@udecode/plate";
-import Link from "next/link";
 
 export default async function Blogs() {
   // Get blogs data
@@ -38,7 +35,7 @@ export default async function Blogs() {
             Blog
           </h1>
           <p className="mt-3 text-center text-3xl font-medium text-primary-purple">
-            Baca cerita dari pengalaman para pengguna BersihBet
+            Baca cerita dari pengalaman para pengguna GambleGone
           </p>
         </div>
 
@@ -54,53 +51,5 @@ export default async function Blogs() {
         </ul>
       </section>
     </main>
-  );
-}
-
-export function BlogCard({ data }: { data: Posts }) {
-  return (
-    <article className="flex flex-col gap-2 rounded-2xl border bg-secondary-white p-6">
-      {/* Header */}
-      <header>
-        <time className="text-base font-medium text-secondary-gray">
-          {data.createdAt.toDateString()}
-        </time>
-        <h2 className="text-2xl font-bold italic text-primary-black line-clamp-3">
-          {data.title}
-        </h2>
-        <div className="mt-1 flex flex-row items-center gap-2">
-          {data.createdBy ? (
-            <>
-              <p className="text-base font-medium text-primary-black">
-                {data.createdBy.username}
-              </p>
-              <RankBadge points={data.createdBy.totalPoints} />
-            </>
-          ) : (
-            <p className="text-base font-medium text-primary-black">
-              Anonymous
-            </p>
-          )}
-        </div>
-      </header>
-
-      {/* Preview */}
-      <div className="flex flex-auto flex-col justify-between gap-4">
-        <p className="line-clamp-5 text-base text-primary-black">
-          {data.previewText}
-        </p>
-
-        {/* Detail Button */}
-        <Link href={`/blogs/${data.id}`} className="self-end">
-          <Button
-            variant="purple"
-            className="rounded-full px-5 font-bold"
-            size="lg"
-          >
-            Baca Selengkapnya
-          </Button>
-        </Link>
-      </div>
-    </article>
   );
 }

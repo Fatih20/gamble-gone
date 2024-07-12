@@ -1,6 +1,5 @@
 "use client";
 
-import { mockChat } from "@/mock-data/chat";
 import { type Message } from "@/types/message";
 import { ChevronDown, ChevronUp, Send } from "lucide-react";
 import Image from "next/image";
