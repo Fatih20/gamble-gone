@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { type Posts } from "@/types/posts";
 import { Value } from "@udecode/plate";
-import { Edit, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
