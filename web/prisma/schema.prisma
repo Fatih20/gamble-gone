@@ -35,6 +35,7 @@ model User {
   updatedAt   DateTime      @default(now()) @updatedAt
   DailyTask   DailyTask[]
   DebtManager DebtManager[]
+  Review      Review?
 }
 
 model DailyTask {
@@ -67,4 +68,17 @@ model DebtManager {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  review      String
+  // Scale of 5
+  rating      Float
+  isAnonymous Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
