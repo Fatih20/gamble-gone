@@ -12,8 +12,25 @@ export function Chat() {
   const [processing, setProcessing] = useState(false);
   const [disabledInput, setDisabledInput] = useState(false);
   const [disabledSend, setDisabledSend] = useState(false);
+  const messageBottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  function scrollIntoView() {
+    console.log("Scrolling");
+    if (!messageBottomRef.current) {
+      return;
+    }
+
+    messageBottomRef.current.scrollIntoView({
+      block: "end",
+    });
+  }
+
+  useEffect(() => {
+    scrollIntoView();
+  }, [messages]);
 
   useEffect(() => {
     const elmt = textAreaRef.current;
@@ -51,6 +68,13 @@ export function Chat() {
           question: messageToSend,
         }),
       });
+      // const promise = new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve(true);
+      //   }, 1000);
+      // });
+      // await promise;
+      // const answer = "Mock answer";
 
       const { answer } = (await result.json()) as { answer: string };
       setMessages((prev) => [
@@ -69,35 +93,36 @@ export function Chat() {
   }, [currentMessage, processing]);
 
   return (
-    <div className="flex items-end justify-center flex-grow">
-      <div className="flex w-full max-w-5xl flex-col flex-grow px-16 pt-8">
-        {/* Chat lists */}
-        <div className="flex flex-col gap-3 pb-8">
-          {messages.map((chat) => (
-            <MessageLine key={chat.id} chat={chat} />
-          ))}
-        </div>
-        {/* Input */}
-        <div className="sticky bottom-0 pb-8 bg-white">
-          <div className="flex flex-row items-center gap-2 rounded-[40px] border bg-secondary-white pl-8 pr-5">
-            <textarea
-              ref={textAreaRef}
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              placeholder="Write what you would like to ask"
-              className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
-            />
-            <button
-              className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
-              disabled={disabledSend}
-              onClick={handleSend}
-            >
-              <Send className="relative right-[2px] rotate-12 stroke-[#969595]" />
-            </button>
-          </div>
+    <>
+      <div className="flex flex-col gap-3 flex-grow h-full overflow-y-auto px-16">
+        {messages.map((chat) => (
+          <MessageLine key={chat.id} chat={chat} />
+        ))}
+        {processing ? (
+          <div className="rounded-full bg-slate-500 w-4 h-4 animate-pulse my-2"></div>
+        ) : null}
+        <div className="w-full h-0 mt-4" ref={messageBottomRef}></div>
+      </div>
+      {/* Input */}
+      <div className="pb-8 bg-white px-16">
+        <div className="flex flex-row items-center gap-2 rounded-[40px] border bg-secondary-white pl-8 pr-5">
+          <textarea
+            ref={textAreaRef}
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            placeholder="Write what you would like to ask"
+            className="mb-3 mt-2 h-6 max-h-60 w-full resize-none bg-transparent text-primary-black outline-none"
+          />
+          <button
+            className="my-3 flex size-10 flex-none items-center justify-center rounded-full bg-primary-gray"
+            disabled={disabledSend}
+            onClick={handleSend}
+          >
+            <Send className="relative right-[2px] rotate-12 stroke-[#969595]" />
+          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -110,7 +135,7 @@ function MessageLine({ chat }: { chat: Message }) {
       <div className="mr-80 flex flex-row items-center gap-3 self-start">
         <Image
           className="size-11"
-          src="/logo-squared.png"
+          src="/indicator.svg"
           alt="AI Logo"
           width={48}
           height={48}
