@@ -32,7 +32,7 @@ export function WhatWeOffer() {
     },
     {
       id: "3",
-      title: "AI-Generated Task",
+      title: "Auto Generated Task",
       icon: <ListTodo className="mr-2 text-primary-green" />,
       description:
         "Provides personalized and specifically tailored tasks to help users manage their daily activities gambling addiction. ",

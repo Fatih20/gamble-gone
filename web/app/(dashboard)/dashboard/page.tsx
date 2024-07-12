@@ -26,7 +26,10 @@ const DashboardPage = async () => {
         <H1 className="font-extrabold text-black" level={"5xl"}>
           Hi, {session.username}
         </H1>
-        <RankBadge points={points} />
+        <RankBadge
+          points={points}
+          className="text-xl h-fit py-2 rounded-lg px-4"
+        />
       </section>
       {/*Task Points Section */}
       <div className="flex w-full flex-row gap-10">
