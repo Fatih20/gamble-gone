@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function BlogCard({ data }: { data: Posts }) {
   return (
-    <article className="flex flex-col gap-2 rounded-2xl border bg-secondary-white p-6">
+    <article className="flex flex-col gap-2 rounded-2xl border flex-auto bg-secondary-white p-6">
       {/* Header */}
       <header>
         <time className="text-base font-medium text-secondary-gray">
