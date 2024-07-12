@@ -32,6 +32,7 @@ GambleGone provide a whole range of resources to assist those who are struggling
 - Vercel AI SDK - version 3.2.22
 - lanchain - version 0.2.9
 - langsmith - version 0.1.36
+- Google Maps Places API
 
 ## Features
 
