@@ -31,39 +31,38 @@ interface QuestionClassification {
 
 const promptString = {
   questionRefinement: `
-  You are part of a therapist team that helps online gambling addicts recover from their addiction. Your task is to improve the question given by the addicts.
+  You are part of a therapist team that helps online gambling addicts recover from their addiction. Your task is to contextualize the question given by addicts to based on the conversation history between your team and the addict.
+  -----
+  The following are the log of your team's conversation, from the oldest to the latest, with the gambler you're talking to and assisting:
+  {chatMessageHistory}
   -----
   The online gambling addict's question is the following:
   {question}
-
-  The addict's background and story on how they got into online gambling is as follows:
-  {gamblingStory}
-  
-  The addict's have been gambling for {gamblingDuration} months.
-
-  The addict's wanted to stop because of the following reason:
-  {whyStop}
   -----
-  Your task is to improve the question by the following:
-  - Rephrase the wording of the question to be as clear as possible.
-  - Inject the circumstances of the gambler appropriately into the question WHILE STILL KEEPING what the question is trying to ask.
+  Your task is to improve the question by contextualizing the question based on your team's conversation history with the gambler. Make it so that the question can be understood even without knowing the conversation history.
 
-  Limit your question into the same amount of sentence as the gambler's sentence. Do not excessively elongate the question.
-  
-  Respond ONLY with the augmented question:
+  In contextualizing the question, please still be succinct and to the point.
+
+  Respond ONLY with the improved question:
   `,
   questionClassification: `
   You are a bot responsible to do sentiment analysis on a statement given by a person. You have been given the following statement:
   {question}
-
   -----
   You may classify the statement into three type:
   - "venting" // the person is just telling you about their struggle
   - "question" // the person asked you something
   - "talk" // the person is just making small talk
   
-  If the statement is a "question", rephrase and reword that question to be more expansive, but keep it true to the question and still be succinct.
+  -----
+  IF AND ONLY IF the statement is a question. You must also process the question with the following instruction:
+  - Rephrase and reword that question to be more expansive
+  - Contextualize the question based on the following conversation history between you and the person, from the oldest to the latest. Make it so that the question can be understood even without knowing the conversation history.
+  -----
+  Prior conversation history:
+  {chatMessageHistory}
 
+  -----
   Output strictly only the following JSON format:
   {{
     "question" : string // if the statement was a question, put the processed question here. Otherwise, put in the given statement VERBATIM WITHOUT ANY MODIFICATION.
@@ -73,15 +72,7 @@ const promptString = {
   ----
   `,
   answer: `
-  You are a therapist that is tasked to help people recovering from online gambling addiction. Those recovering addict will talk to you in their path to recovery.
-  -------
-  Your input #1 is what the gambler you're treating has said to you:
-  {question}
-
-  Your input #2 is the sentiment classification of what has been said by the gambler:
-  {sentiment}
-
-  The sentiment could only be three of the following: "venting", "question", "talk".
+  You are a therapist that is tasked to help people recovering from online gambling addiction. Those recovering addict is currently talking to you in their path to recovery.
   -------
   The addict's background is as follows:
   {gamblingStory}
@@ -91,7 +82,20 @@ const promptString = {
   The addict's wanted to stop because of the following reason:
   {whyStop}
   -------
-  The way that you answer the question is dependent on the your input #2, the sentiment.
+  The following are the log of your conversation, from the oldest to the latest, with the gambler you're talking to and assisting:
+  {chatMessageHistory}
+  -------
+  The gambler just replied to your most recent answer.
+  Your input #1 is what the gambler you're treating has just replied to you:
+  {question}
+
+  Your input #2 is the sentiment classification of what the gambler just replied to you:
+  {sentiment}
+
+  The sentiment could only be three of the following: "venting", "question", "talk".
+  -------
+  You now must answer the gambler's reply. Pay attention to the history and understand the context of the conversation when giving your reply.
+  The way that you reply is ALSO dependent on your input #2, the sentiment.
 
   # Case 1: sentiment is "venting"
   Just lend your ear to the gambler. You don't need to put forth any factual information. Give advice ONLY WHEN appropriate. 
@@ -117,6 +121,7 @@ export type ChatParameter = {
   gamblingStory: string;
   gamblingDuration: string;
   whyStop: string;
+  chatMessageHistory: string;
 };
 
 export type RefinementOutput = ChatParameter & {
@@ -213,9 +218,20 @@ export class Chatbot {
     });
 
     const composedChain = new RunnableLambda({
-      func: async (input: ChatParameter) => {
-        const result = await this.classificationChain.invoke(input);
-        const { gamblingDuration, gamblingStory, whyStop } = input;
+      func: async ({
+        gamblingDuration,
+        chatMessageHistory,
+        gamblingStory,
+        question,
+        whyStop,
+      }: ChatParameter) => {
+        const result = await this.classificationChain.invoke({
+          gamblingDuration,
+          chatMessageHistory,
+          gamblingStory,
+          question,
+          whyStop,
+        });
         const retrievedDocs = await this.retriever.invoke(result.question);
         return {
           question: result.question,
@@ -224,6 +240,7 @@ export class Chatbot {
           whyStop,
           context: retrievedDocs,
           sentiment: result.sentiment,
+          chatMessageHistory,
         } as RefinementOutput;
       },
     }).pipe(this.answerChain);
