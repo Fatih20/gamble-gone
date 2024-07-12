@@ -1,6 +1,11 @@
 import { Badge } from "./badge";
 
-const RankBadge = ({ points }: { points: number }) => {
+interface RankBadgeProps {
+  className?: string;
+  points: number;
+}
+
+const RankBadge = ({ points, className, ...props }: RankBadgeProps) => {
   const getRank = (points: number) => {
     if (points >= 500) {
       return "Supreme";
@@ -15,7 +20,11 @@ const RankBadge = ({ points }: { points: number }) => {
 
   const rank = getRank(points);
 
-  return <Badge variant={rank}>{rank}</Badge>;
+  return (
+    <Badge variant={rank} className={className} {...props}>
+      {rank}
+    </Badge>
+  );
 };
 
 export default RankBadge;

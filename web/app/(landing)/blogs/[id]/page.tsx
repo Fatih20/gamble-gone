@@ -1,6 +1,9 @@
 import { PlateRender } from "@/components/plate-ui/plate-render";
 import { Badge } from "@/components/ui/badge";
+import RankBadge from "@/components/ui/rank-badge";
+import { prisma } from "@/lib/prisma";
 import { mockPosts } from "@/mock-data/posts";
+import { Posts } from "@/types/posts";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,23 +13,43 @@ interface Params {
 }
 
 export async function generateStaticParams() {
-  // Mock data
-  const posts = mockPosts;
+  // Get blogs data
+  const posts = await prisma.post.findMany({ select: { id: true } });
 
   return posts.map((post) => ({
     id: post.id,
   }));
 }
 
-export default function BlogsDetail({ params }: { params: Params }) {
+export default async function BlogsDetail({ params }: { params: Params }) {
   // Get blog data
   const blogID = params.id;
-  const blog = mockPosts.find((post) => post.id === blogID);
+
+  const blog = await prisma.post.findUnique({
+    where: { id: blogID },
+    include: { user: true },
+  });
 
   // Not found
   if (!blog) {
     return notFound();
   }
+
+  const data: Posts = {
+    id: blog.id,
+    title: blog.title,
+    previewText: blog.previewText,
+    content: blog.content as any,
+    createdAt: blog.createdAt,
+    createdBy: blog.isAnonymous
+      ? null
+      : {
+          id: blog.user.id,
+          name: blog.user.name,
+          username: blog.user.username,
+          totalPoints: blog.user.totalPoints,
+        },
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-white p-24">
@@ -44,22 +67,22 @@ export default function BlogsDetail({ params }: { params: Params }) {
 
           {/* Title */}
           <h1 className="mt-3 text-5xl font-extrabold text-secondary-white">
-            {blog.title}
+            {data.title}
           </h1>
 
           {/* Metadata */}
           <div className="mt-6 flex flex-row justify-between">
             <time className="text-base font-medium text-secondary-white">
-              {blog.createdAt.toDateString()}
+              {data.createdAt.toDateString()}
             </time>
 
             <div className="flex flex-row items-center gap-3">
-              {blog.createdBy ? (
+              {data.createdBy ? (
                 <>
                   <p className="text-base font-extrabold text-primary-green">
-                    {blog.createdBy.username}
+                    {data.createdBy.username}
                   </p>
-                  <Badge variant="green">{blog.createdBy.rank}</Badge>
+                  <RankBadge points={data.createdBy.totalPoints} />
                 </>
               ) : (
                 <>
@@ -74,7 +97,7 @@ export default function BlogsDetail({ params }: { params: Params }) {
 
         {/* Content */}
         <div className="mx-8 mt-8 text-lg text-primary-black">
-          <PlateRender initialValue={blog.content} />
+          <PlateRender initialValue={data.content} />
         </div>
       </article>
     </main>
