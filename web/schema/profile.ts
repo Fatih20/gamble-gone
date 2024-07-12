@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const birthDateSchema = z
-  .date({ message: "Tanggal lahir harus diisi" })
+  .date({ message: "Birthdate is required" })
   .refine(
     (date) => {
       const today = new Date();
@@ -9,56 +9,56 @@ export const birthDateSchema = z
       return compareDate <= today;
     },
     {
-      message: "Tanggal lahir tidak boleh di masa depan",
+      message: "Birthdate cannot be in the future",
     },
   );
 
 export const FullProfileUpdateSchema = z.object({
   username: z
-    .string({ message: "Username harus diisi" })
-    .min(3, { message: "Username harus terdiri dari minimal 3 karakter" })
-    .max(20, { message: "Username harus terdiri dari maksimal 20 karakter" })
+    .string({ message: "Username is required" })
+    .min(3, { message: "Username must be at least 3 characters long" })
+    .max(20, { message: "Username must be at most 20 characters long" })
     .regex(new RegExp("^[a-zA-Z0-9_]*$"), {
       message:
-        "Username hanya boleh mengandung huruf, angka, dan garis bawah (_)",
+        "Username can only contain letters, numbers, and underscores (_)",
     }),
   password: z.union([
     z.string().length(0), // Allow empty string
     z
-      .string({ message: "Password harus diisi" })
-      .min(8, { message: "Password harus terdiri dari minimal 8 karakter" })
-      .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" })
+      .string({ message: "Password is required" })
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(32, { message: "Password must be at most 32 characters long" })
       .regex(new RegExp("^(?=.*[a-z])"), {
-        message: "Password harus mengandung huruf kecil",
+        message: "Password must contain a lowercase letter",
       })
       .regex(new RegExp("^(?=.*[A-Z])"), {
-        message: "Password harus mengandung huruf besar",
+        message: "Password must contain an uppercase letter",
       })
       .regex(new RegExp("^(?=.*[0-9])"), {
-        message: "Password harus mengandung angka",
+        message: "Password must contain a number",
       })
       .regex(new RegExp("^(?=.*[!@#$%^&*])"), {
-        message: "Password harus mengandung karakter khusus (!@#$%^&*)",
+        message: "Password must contain a special character (!@#$%^&*)",
       }),
   ]),
-  name: z.string({ message: "Nama harus diisi, Namun dapat anonim" }),
+  name: z.string({ message: "Name is required, but can be anonymous" }),
   birthDate: birthDateSchema,
-  gender: z.string({ message: "Jenis kelamin harus diisi" }),
+  gender: z.string({ message: "Gender is required" }),
   gamblingStory: z.string({
-    message: "Cerita berjudi harus diisi, cukup secara umum",
+    message: "Gambling story is required, just in general",
   }),
   gamblingDuration: z
     .number({
-      message: "Durasi berjudi harus diisi, cukup secara umum",
+      message: "Gambling duration is required, just in general",
     })
-    .min(1, { message: "Durasi berjudi harus positif" }),
+    .min(1, { message: "Gambling duration must be positive" }),
   whyStop: z.string({
-    message: "Alasan berhenti harus diisi, cukup secara umum",
+    message: "Reason for stopping is required, just in general",
   }),
 });
 
 export const UpdatePointRequestSchema = z.object({
   totalPoints: z
-    .number({ message: "Total poin harus diisi" })
-    .min(0, { message: "Total poin tidak boleh negatif" }),
+    .number({ message: "Total points are required" })
+    .min(0, { message: "Total points cannot be negative" }),
 });

@@ -10,24 +10,35 @@ export function AboutUs() {
             <h1 className="text-3xl font-bold text-primary-green">About Us</h1>
 
             <h2 className="text-6xl font-extrabold text-primary-white">
-              Kenapa BersihBet?
+              Why<br></br> GambleGone?
             </h2>
           </header>
 
-          <p className="mt-8 text-xl text-primary-white">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Pellentesque habitant morbi tristique senectus. Interdum velit
-            laoreet id donec ultrices tincidunt. Vestibulum lorem sed risus
-            ultricies tristique. Aliquet lectus proin nibh nisl condimentum. Sem
-            integer vitae justo eget magna fermentum iaculis. Quam id leo in
-            vitae turpis massa sed elementum. Consectetur{" "}
+          <p className="mt-8 text-xl text-primary-white text-justify">
+            As online gambling entices over 2.8 million Indonesians, the
+            government has dedicated substantial efforts to eradicate this
+            growing issue, achieving significant societal impact. However, many
+            individuals still struggle with gambling addiction, left behind by
+            broad regulatory measures. GambleGone aims to bridge this gap by
+            providing comprehensive support and guidance through advanced
+            AI-generated tools and personalized resources. GambleGone is
+            dedicated to making a meaningful difference in the lives of those
+            affected by gambling addiction, offering a lifeline to recovery and
+            a brighter, addiction-free future.{" "}
           </p>
         </div>
 
         {/* Image */}
-        <div className="rounded-2xl bg-primary-gray" />
-        {/* <Image src="/home/photo" /> */}
+        <div className="flex items-center justify-center">
+          <div className="relative aspect-square rounded-2xl w-full items-center justify-center">
+            <Image
+              src="/about-us.jpg"
+              fill
+              alt={"home-photo"}
+              className="object-cover rounded-2xl"
+            />
+          </div>
+        </div>
       </article>
     </section>
   );

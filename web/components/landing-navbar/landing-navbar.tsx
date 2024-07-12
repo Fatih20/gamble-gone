@@ -1,14 +1,28 @@
 import { LandingNavbarItem } from "./landing-navbar-item";
+import { getServerAuthSession } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
-export const LandingNavbar = () => {
-  const mockIsAuthenticated = true;
+export const LandingNavbar = async () => {
+  let isAuthenticated = false;
+  const res = await getServerAuthSession();
+
+  if (res) {
+    isAuthenticated = true;
+  }
   const navItems = [
     {
       title: "Blogs",
       href: "/blogs",
+    },
+    {
+      title: "features",
+      href: "/#features",
+    },
+    {
+      title: "hotline",
+      href: "/#hotline",
     },
   ];
 
@@ -39,7 +53,7 @@ export const LandingNavbar = () => {
           </li>
 
           {/* Auth */}
-          {!mockIsAuthenticated ? (
+          {!isAuthenticated ? (
             <ul className="flex flex-row items-center gap-3 place-self-center justify-self-end">
               <li>
                 <Link href="/auth/login">
@@ -67,7 +81,7 @@ export const LandingNavbar = () => {
             <li className="place-self-center justify-self-end">
               <Link href="/dashboard">
                 <Button variant="green" className="rounded-full px-7 font-bold">
-                  Jelajahi Fitur Kami
+                  Explore Our Features
                 </Button>
               </Link>
             </li>
@@ -76,10 +90,10 @@ export const LandingNavbar = () => {
       </nav>
 
       {/* Login Encouragement */}
-      {!mockIsAuthenticated && (
+      {!isAuthenticated && (
         <div className="flex h-14 items-center justify-center bg-primary-green">
           <p className="text-lg font-medium">
-            Lakukan Sign In/Sign Up untuk menikmati fitur-fitur kami
+            Log In/ Sign Up to enjoy our amazing features !
           </p>
         </div>
       )}

@@ -1,20 +1,22 @@
 import * as z from "zod";
 
 export const DebtAnalysisSchema = z.object({
-  currentDebt: z.coerce.number({ message: "Hutang pejudi harus ada!" }).min(0),
+  currentDebt: z.coerce.number({ message: "Current debt is required!" }).min(0),
   debtTransactions: z.array(
     z.object({
       // Formatted in month/day/year. Use Date.toLocaleDateString() to convert from Javascript Date object into date.
-      date: z.string({ message: "Tanggal transaksi harus ada" }),
+      date: z.string({ message: "Transaction date is required" }),
       type: z.enum(["payment", "relapse"], {
-        message: "Tipe transaksi harus ada!",
+        message: "Transaction type is required!",
       }),
       amount: z
-        .number({ message: "Nilai transaksi harus ada!" })
-        .min(0, { message: "Nilai transaksi tidak boleh kurang dari 0" }),
+        .number({ message: "Transaction amount is required!" })
+        .min(0, { message: "Transaction amount cannot be less than 0" }),
     }),
   ),
 });
+
+export type DebtManagerAnalysis = z.infer<typeof DebtAnalysisSchema>;
 
 export const AddDebtManagerDataSchema = z.object({
   amount: z.coerce.number({ message: "Transaction amount is required" }).min(0),

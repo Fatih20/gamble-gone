@@ -3,50 +3,50 @@ import * as z from "zod";
 
 export const ValidateUsernameSchema = z.object({
   username: z
-    .string({ message: "Username harus diisi" })
-    .min(3, { message: "Username harus terdiri dari minimal 3 karakter" })
-    .max(20, { message: "Username harus terdiri dari maksimal 20 karakter" })
+    .string({ message: "Username is required" })
+    .min(3, { message: "Username must be at least 3 characters" })
+    .max(20, { message: "Username must be at most 20 characters" })
     .regex(new RegExp("^[a-zA-Z0-9_]*$"), {
       message:
-        "Username hanya boleh mengandung huruf, angka, dan garis bawah (_)",
+        "Username can only contain letters, numbers, and underscores (_)",
     }),
 });
 
 export const SignUpRequestSchema = z
   .object({
     username: z
-      .string({ message: "Username harus diisi" })
-      .min(3, { message: "Username harus terdiri dari minimal 3 karakter" })
-      .max(20, { message: "Username harus terdiri dari maksimal 20 karakter" })
+      .string({ message: "Username is required" })
+      .min(3, { message: "Username must be at least 3 characters" })
+      .max(20, { message: "Username must be at most 20 characters" })
       .regex(new RegExp("^[a-zA-Z0-9_]*$"), {
         message:
-          "Username hanya boleh mengandung huruf, angka, dan garis bawah (_)",
+          "Username can only contain letters, numbers, and underscores (_)",
       }),
     password: z
-      .string({ message: "Password harus diisi" })
-      .min(8, { message: "Password harus terdiri dari minimal 8 karakter" })
-      .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" })
+      .string({ message: "Password is required" })
+      .min(8, { message: "Password must be at least 8 characters" })
+      .max(32, { message: "Password must be at most 32 characters" })
       .regex(new RegExp("^(?=.*[a-z])"), {
-        message: "Password harus mengandung huruf kecil",
+        message: "Password must contain a lowercase letter",
       })
       .regex(new RegExp("^(?=.*[A-Z])"), {
-        message: "Password harus mengandung huruf besar",
+        message: "Password must contain an uppercase letter",
       })
       .regex(new RegExp("^(?=.*[0-9])"), {
-        message: "Password harus mengandung angka",
+        message: "Password must contain a number",
       })
       .regex(new RegExp("^(?=.*[!@#$%^&*])"), {
-        message: "Password harus mengandung karakter khusus (!@#$%^&*)",
+        message: "Password must contain a special character (!@#$%^&*)",
       }),
     confirmPassword: z
-      .string({ message: "Konfirmasi password harus diisi" })
-      .min(1, { message: "Konfirmasi password harus diisi" }),
+      .string({ message: "Confirm password is required" })
+      .min(1, { message: "Confirm password is required" }),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
       return ctx.addIssue({
         code: "custom",
-        message: "Konfirmasi password tidak cocok",
+        message: "Confirm password does not match",
         path: ["confirmPassword"],
       });
     }
@@ -54,59 +54,66 @@ export const SignUpRequestSchema = z
 
 export const FullProfileSchema = z.object({
   username: z
-    .string({ message: "Username harus diisi" })
-    .min(3, { message: "Username harus terdiri dari minimal 3 karakter" })
-    .max(20, { message: "Username harus terdiri dari maksimal 20 karakter" })
+    .string({ message: "Username is required" })
+    .min(3, { message: "Username must be at least 3 characters" })
+    .max(20, { message: "Username must be at most 20 characters" })
     .regex(new RegExp("^[a-zA-Z0-9_]*$"), {
       message:
-        "Username hanya boleh mengandung huruf, angka, dan garis bawah (_)",
+        "Username can only contain letters, numbers, and underscores (_)",
     }),
   password: z
-    .string({ message: "Password harus diisi" })
-    .min(8, { message: "Password harus terdiri dari minimal 8 karakter" })
-    .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" })
+    .string({ message: "Password is required" })
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(32, { message: "Password must be at most 32 characters" })
     .regex(new RegExp("^(?=.*[a-z])"), {
-      message: "Password harus mengandung huruf kecil",
+      message: "Password must contain a lowercase letter",
     })
     .regex(new RegExp("^(?=.*[A-Z])"), {
-      message: "Password harus mengandung huruf besar",
+      message: "Password must contain an uppercase letter",
     })
     .regex(new RegExp("^(?=.*[0-9])"), {
-      message: "Password harus mengandung angka",
+      message: "Password must contain a number",
     })
     .regex(new RegExp("^(?=.*[!@#$%^&*])"), {
-      message: "Password harus mengandung karakter khusus (!@#$%^&*)",
+      message: "Password must contain a special character (!@#$%^&*)",
     }),
-  name: z.string({ message: "Nama harus diisi, Namun dapat anonim" }).min(1, {
-    message: "Nama harus diisi, Namun dapat anonim",
+  name: z.string({ message: "Name is required but can be anonymous" }).min(1, {
+    message: "Name is required but can be anonymous",
   }),
   birthDate: birthDateSchema,
   gender: z
-    .string({ message: "Gender harus diisi" })
-    .min(1, { message: "Gender harus diisi" }),
+    .string({ message: "Gender is required" })
+    .min(1, { message: "Gender is required" }),
   gamblingStory: z
     .string({
-      message: "Cerita berjudi harus diisi, cukup secara umum",
+      message: "Gambling story is required, a brief description is sufficient",
     })
-    .min(1, { message: "Cerita berjudi harus diisi, cukup secara umum" }),
+    .min(1, {
+      message: "Gambling story is required, a brief description is sufficient",
+    }),
   gamblingDuration: z
     .number({
-      message: "Durasi berjudi harus diisi, cukup secara umum",
+      message:
+        "Gambling duration is required, a brief description is sufficient",
     })
-    .min(1, { message: "Durasi berjudi harus positif" }),
+    .min(1, { message: "Gambling duration must be positive" }),
   whyStop: z
     .string({
-      message: "Alasan berhenti harus diisi, cukup secara umum",
+      message:
+        "Reason for stopping is required, a brief description is sufficient",
     })
-    .min(1, { message: "Alasan berhenti harus diisi, cukup secara umum" }),
+    .min(1, {
+      message:
+        "Reason for stopping is required, a brief description is sufficient",
+    }),
 });
 
 export const SignInRequestSchema = z.object({
   username: z
-    .string({ message: "Username harus diisi" })
-    .min(1, { message: "Username harus terdiri dari minimal 3 karakter" }),
+    .string({ message: "Username is required" })
+    .min(1, { message: "Username must be at least 3 characters" }),
   password: z
-    .string({ message: "Password harus diisi" })
-    .min(8, { message: "Password harus terdiri dari minimal 8 karakter" })
-    .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" }),
+    .string({ message: "Password is required" })
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(32, { message: "Password must be at most 32 characters" }),
 });

@@ -4,7 +4,10 @@ import Link from "next/link";
 
 export function HotlineSection() {
   return (
-    <section className="flex w-full flex-col items-center gap-8 bg-primary-black p-24">
+    <section
+      id="hotline"
+      className="flex w-full flex-col items-center gap-8 bg-primary-black p-24"
+    >
       <header>
         <h1 className="text-center text-3xl font-bold text-primary-green">
           Hotline

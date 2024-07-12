@@ -9,24 +9,24 @@ export interface Review {
 
 export const CreateReviewRequestSchema = z.object({
   review: z
-    .string({ message: "Review harus diisi" })
-    .min(1, { message: "Review harus diisi" })
-    .max(256, { message: "Review maksimal 256 karakter" }),
+    .string({ message: "Review is required" })
+    .min(1, { message: "Review is required" })
+    .max(256, { message: "Review can be at most 256 characters long" }),
   rating: z.coerce
-    .number({ message: "Rating harus diisi" })
-    .min(1, { message: "Rating minimal bernilai 1" })
-    .max(5, { message: "Rating maksimal bernilai 5" }),
-  isAnonymous: z.boolean({ message: "Opsi anonim harus diisi" }),
+    .number({ message: "Rating is required" })
+    .min(1, { message: "Rating must be at least 1" })
+    .max(5, { message: "Rating can be at most 5" }),
+  isAnonymous: z.boolean({ message: "Anonymous option is required" }),
 });
 
 export const UpdateReviewRequestSchema = z.object({
   review: z
-    .string({ message: "Review harus diisi" })
-    .min(1, { message: "Review harus diisi" })
-    .max(256, { message: "Review maksimal 256 karakter" }),
+    .string({ message: "Review is required" })
+    .min(1, { message: "Review is required" })
+    .max(256, { message: "Review can be at most 256 characters long" }),
   rating: z.coerce
-    .number({ message: "Rating harus diisi" })
-    .min(1, { message: "Rating minimal bernilai 1" })
-    .max(5, { message: "Rating maksimal bernilai 5" }),
-  isAnonymous: z.boolean({ message: "Opsi anonim harus diisi" }),
+    .number({ message: "Rating is required" })
+    .min(1, { message: "Rating must be at least 1" })
+    .max(5, { message: "Rating can be at most 5" }),
+  isAnonymous: z.boolean({ message: "Anonymous option is required" }),
 });

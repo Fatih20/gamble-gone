@@ -44,7 +44,7 @@ const DebtSummary: React.FC<DebtSummaryProps> = async ({ debt }) => {
       <TransactionTable transactions={transactions} />
 
       {/* Analyze component */}
-      <DebtAnalyzer />
+      <DebtAnalyzer currentDebt={debt.amount} history={transactions} />
     </div>
   );
 };

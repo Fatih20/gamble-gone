@@ -2,30 +2,30 @@ import * as z from "zod";
 
 export const CreatePostsSchema = z.object({
   title: z
-    .string({ message: "Judul harus diisi" })
-    .min(1, { message: "Judul harus diisi" })
-    .max(255, { message: "Judul maksimal 255 karakter" }),
+    .string({ message: "Title is required" })
+    .min(1, { message: "Title is required" })
+    .max(255, { message: "Title can be at most 255 characters long" }),
   previewText: z
-    .string({ message: "Teks preview harus diisi" })
-    .min(1, { message: "Teks preview harus diisi" }),
+    .string({ message: "Preview text is required" })
+    .min(1, { message: "Preview text is required" }),
   content: z
-    .string({ message: "Konten harus diisi" })
-    .min(1, { message: "Konten harus diisi" }),
-  isAnonymous: z.coerce.boolean({ message: "Opsi anonim harus diisi" }),
+    .string({ message: "Content is required" })
+    .min(1, { message: "Content is required" }),
+  isAnonymous: z.coerce.boolean({ message: "Anonymous option is required" }),
 });
 
 export const UpdatePostsSchema = z.object({
   title: z
-    .string({ message: "Judul harus diisi" })
-    .min(1, { message: "Judul harus diisi" })
-    .max(255, { message: "Judul maksimal 255 karakter" }),
+    .string({ message: "Title is required" })
+    .min(1, { message: "Title is required" })
+    .max(255, { message: "Title can be at most 255 characters long" }),
   previewText: z
-    .string({ message: "Teks preview harus diisi" })
-    .min(1, { message: "Teks preview harus diisi" }),
+    .string({ message: "Preview text is required" })
+    .min(1, { message: "Preview text is required" }),
   content: z
-    .string({ message: "Konten harus diisi" })
-    .min(1, { message: "Konten harus diisi" }),
-  isAnonymous: z.coerce.boolean({ message: "Opsi anonim harus diisi" }),
+    .string({ message: "Content is required" })
+    .min(1, { message: "Content is required" }),
+  isAnonymous: z.coerce.boolean({ message: "Anonymous option is required" }),
 });
 
 export const DeletePostsSchema = z.object({});

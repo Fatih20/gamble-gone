@@ -1,37 +1,95 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { H4, P } from "@/components/ui/typography";
+import { DebtManager } from "@prisma/client";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
-export function DebtAnalyzer() {
-  const [isLoading, setIsLoading] = useState(false);
+interface DebtAnalyzerProps {
+  currentDebt: number;
+  history: DebtManager[];
+}
+
+export function DebtAnalyzer({ currentDebt, history }: DebtAnalyzerProps) {
+  const [text, setText] = useState<string>("");
+  const [displayText, setDisplayText] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit = async () => {
-    // Generate
-    setIsLoading(true);
+    setText("");
+    setDisplayText("");
+    const body = {
+      currentDebt,
+      debtTransactions: history.map((debt) => ({
+        amount: debt.amount,
+        type: debt.type,
+        date: debt.createdAt,
+      })),
+    };
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const toastId = toast.loading("Generating AI Analysis...");
+    setIsSubmitting(true);
 
-    setIsLoading(false);
+    try {
+      const res = await fetch("/api/debt-analysis", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      toast.dismiss(toastId);
+
+      if (!res.ok) {
+        throw new Error("Failed to generate analysis");
+      }
+
+      const { analysis } = await res.json();
+      setText(analysis);
+      toast.success("Analysis generated successfully");
+    } catch (error) {
+      toast.error("Error generating analysis");
+    }
+    setIsSubmitting(false);
   };
 
+  useEffect(() => {
+    let index = -1;
+    if (text) {
+      const interval = setInterval(() => {
+        setDisplayText((prev) => prev + text.charAt(index));
+        index++;
+        if (index >= text.length) {
+          clearInterval(interval);
+        }
+      }, 20); // Adjust the interval as needed
+      return () => clearInterval(interval);
+    } else {
+      setDisplayText("");
+    }
+  }, [text]);
+
   return (
-    <div>
-      <Button size="lg" variant="purple" className="font-bold rounded-full">
+    <div className="w-full items-start">
+      <Button
+        size="lg"
+        variant="purple"
+        className="font-bold rounded-full"
+        disabled={history.length === 0 || isSubmitting}
+        onClick={onSubmit}
+      >
         Generate AI Analysis
       </Button>
 
       <div className="mt-6">
-        <h4 className="text-4xl font-bold">Analysis Result</h4>
-        <p className="text-lg mt-3 text-primary-black">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <H4 className="font-bold" level={"4xl"}>
+          Analysis Result
+        </H4>
+        <P className="text-lg mt-3 text-primary-black text-justify">
+          {displayText || "No analysis yet"}
+        </P>
       </div>
     </div>
   );

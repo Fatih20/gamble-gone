@@ -339,7 +339,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ User }) => {
           />
 
           <section className="flex flex-row items-start w-full gap-10">
-            <Button onClick={Logout} variant={"purple"} size={"lg"}>
+            <Button
+              onClick={Logout}
+              variant={"purple"}
+              size={"lg"}
+              type="button"
+            >
               Logout
             </Button>
             {isEditing ? (

@@ -58,11 +58,9 @@ const LoginForm = () => {
     } catch (error: any) {
       toast.dismiss(toastId);
 
-      const errormsg = JSON.parse(error);
-
       console.error("Unexpected error:", error);
       toast.error("Sign in error", {
-        description: errormsg,
+        description: "Please try again later",
       });
     }
   };

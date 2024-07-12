@@ -1,12 +1,33 @@
 import { Badge } from "@/components/ui/badge";
+import RankBadge from "@/components/ui/rank-badge";
 import Ratings from "@/components/ui/rating";
+import { prisma } from "@/lib/prisma";
 import { mockReviews } from "@/mock-data/review";
 import { type Review } from "@/types/review";
-import Image from "next/image";
 
-export function WhatTheySay() {
+export async function WhatTheySay() {
   // Get reviews
-  const reviews = mockReviews;
+  const reviews = await prisma.review.findMany({
+    include: {
+      user: {
+        select: {
+          name: true,
+          totalPoints: true,
+          id: true,
+          username: true,
+        },
+      },
+    },
+  });
+
+  const formatedReviews = reviews.map((review) => {
+    return {
+      id: review.id,
+      rating: review.rating,
+      review: review.review,
+      createdBy: review.isAnonymous ? null : review.user,
+    };
+  });
 
   return (
     <section className="flex w-full items-center justify-center p-24">
@@ -17,13 +38,13 @@ export function WhatTheySay() {
             What they say
           </h1>
           <h2 className="mt-2 text-center text-6xl font-extrabold text-primary-black">
-            Cerita dari pengguna setia BersihBet
+            Hear What Others Say
           </h2>
         </header>
 
         {/* Reviews */}
         <ul className="grid grid-cols-2 gap-6">
-          {reviews.map((review) => {
+          {formatedReviews.map((review) => {
             return (
               <li key={review.id} className="flex">
                 <ReviewCard review={review} />
@@ -56,7 +77,7 @@ function ReviewCard({ review }: { review: Review }) {
             <p className="text-base font-bold text-primary-purple">
               {review.createdBy.name}
             </p>
-            <Badge variant="green">{review.createdBy.rank}</Badge>
+            <RankBadge points={review.createdBy.totalPoints} />
           </>
         ) : (
           <p className="text-base font-bold text-primary-purple">Anonymous</p>

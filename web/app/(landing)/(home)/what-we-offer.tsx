@@ -15,50 +15,56 @@ interface Feature {
 }
 
 export function WhatWeOffer() {
-  const loremIpsum =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque";
-
   const features: Feature[] = [
     {
       id: "1",
       title: "Blog",
       icon: <NotebookPen className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "A platform to share your thoughts and experience. Read other’s story to gain motivation and grow together as a positive community",
     },
     {
       id: "2",
       title: "AI-Powered Chat",
       icon: <MessageSquareMore className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "Designed to offer personalized resources, coping strategies, and a non-judgmental conversations, aims to empower users on their journey to recovery ",
     },
     {
       id: "3",
       title: "AI-Generated Task",
       icon: <ListTodo className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "Provides personalized and specifically tailored tasks to help users manage their daily activities gambling addiction. ",
     },
     {
       id: "4",
       title: "Dept Management",
       icon: <Wallet className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "Our debt-manager offers step-by-step plans to manage and reduce debt, alleviating the financial stress associated with gambling addiction.",
     },
     {
       id: "5",
       title: "Rehabilitation Center",
       icon: <MapPin className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "The rehabilitation center feature connects users with local and online rehabilitation centers specializing in gambling addiction.",
     },
     {
       id: "6",
       title: "Personalized Dashboard",
       icon: <CircleUserRound className="mr-2 text-primary-green" />,
-      description: loremIpsum,
+      description:
+        "The personalized dashboard offers users a comprehensive overview of their progress, including completed tasks, status, and recommendations",
     },
   ];
 
   return (
-    <section className="flex w-full items-center justify-center p-24">
+    <section
+      id="features"
+      className="flex w-full items-center justify-center p-24"
+    >
       <div className="flex w-full max-w-7xl flex-col items-center gap-8">
         {/* Title */}
         <header className="w-full max-w-2xl">
