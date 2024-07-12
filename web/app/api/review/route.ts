@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest) => {
     const errorFields = getZodParsingErrorFields(parseResult);
     return NextResponse.json(
       {
-        message: "Validasi request body gagal",
+        message: "Request body not valid",
         errorFields: errorFields,
       },
       { status: 400 },
@@ -61,7 +61,7 @@ export const POST = async (req: NextRequest) => {
       if (e.code === "P2002") {
         return NextResponse.json(
           {
-            message: "Anda sudah memberikan review",
+            message: "You already made a review",
           },
           { status: 400 },
         );
@@ -85,7 +85,7 @@ export const POST = async (req: NextRequest) => {
       // Unknown error
       return NextResponse.json(
         {
-          message: "Terjadi kesalahan",
+          message: "Internal server error",
         },
         { status: 500 },
       );

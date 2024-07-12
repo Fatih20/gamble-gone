@@ -37,7 +37,7 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
     const errorFields = getZodParsingErrorFields(parseResult);
     return NextResponse.json(
       {
-        message: "Validasi request body gagal",
+        message: "Request body not valid",
         errorFields: errorFields,
       },
       { status: 400 },
@@ -60,7 +60,7 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
     if (!existingReview) {
       return NextResponse.json(
         {
-          message: "Review tidak ditemukan",
+          message: "Review not found",
         },
         { status: 404 },
       );
@@ -70,7 +70,7 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
     if (existingReview.id !== reviewID) {
       return NextResponse.json(
         {
-          message: "Bukan review milik Anda",
+          message: "Not your review",
         },
         { status: 403 },
       );
@@ -108,7 +108,7 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
       // Unknown error
       return NextResponse.json(
         {
-          message: "Terjadi kesalahan",
+          message: "Internal Server Error",
         },
         { status: 500 },
       );

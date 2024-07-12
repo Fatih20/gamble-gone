@@ -16,13 +16,10 @@ export default async function DashboardLayout({
 }>) {
   const session = await getServerAuthSession();
 
-
   return (
-    
-      <div className="flex flex-row">
-        <Sidebar />
-        <div className="ml-60 flex-auto">{children}</div>
-      </div>
-   
+    <div className="flex flex-row">
+      <Sidebar />
+      <div className="ml-60 flex-auto">{children}</div>
+    </div>
   );
 }

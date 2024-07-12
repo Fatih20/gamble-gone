@@ -126,7 +126,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ User }) => {
           });
         }
       } else {
-
         await update();
         router.refresh();
 
@@ -359,6 +358,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ User }) => {
                   type="button"
                   variant={"black"}
                   size="lg"
+                  disabled={form.formState.isSubmitting}
                 >
                   Cancel
                 </Button>

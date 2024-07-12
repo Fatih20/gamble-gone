@@ -104,26 +104,9 @@ export const FullProfileSchema = z.object({
 export const SignInRequestSchema = z.object({
   username: z
     .string({ message: "Username harus diisi" })
-    .min(3, { message: "Username harus terdiri dari minimal 3 karakter" })
-    .max(20, { message: "Username harus terdiri dari maksimal 20 karakter" })
-    .regex(new RegExp("^[a-zA-Z0-9_]*$"), {
-      message:
-        "Username hanya boleh mengandung huruf, angka, dan garis bawah (_)",
-    }),
+    .min(1, { message: "Username harus terdiri dari minimal 3 karakter" }),
   password: z
     .string({ message: "Password harus diisi" })
     .min(8, { message: "Password harus terdiri dari minimal 8 karakter" })
-    .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" })
-    .regex(new RegExp("^(?=.*[a-z])"), {
-      message: "Password harus mengandung huruf kecil",
-    })
-    .regex(new RegExp("^(?=.*[A-Z])"), {
-      message: "Password harus mengandung huruf besar",
-    })
-    .regex(new RegExp("^(?=.*[0-9])"), {
-      message: "Password harus mengandung angka",
-    })
-    .regex(new RegExp("^(?=.*[!@#$%^&*])"), {
-      message: "Password harus mengandung karakter khusus (!@#$%^&*)",
-    }),
+    .max(32, { message: "Password harus terdiri dari maksimal 32 karakter" }),
 });

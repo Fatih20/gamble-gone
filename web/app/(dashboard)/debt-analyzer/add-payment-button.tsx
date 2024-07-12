@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -20,21 +21,55 @@ import {
 import { Input } from "@/components/ui/input";
 import { AddDebtManagerDataSchema } from "@/schema/debt";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
-export function AddPaymentButton() {
+interface AddPaymentButtonProps {
+  id: string;
+}
+
+export function AddPaymentButton({ id }: AddPaymentButtonProps) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
   const form = useForm<z.infer<typeof AddDebtManagerDataSchema>>({
     resolver: zodResolver(AddDebtManagerDataSchema),
     defaultValues: {
-      type: "PAYMENT",
+      type: "payment",
+      amount: 0,
+      note:""
     },
   });
 
-  function onSubmit(values: z.infer<typeof AddDebtManagerDataSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof AddDebtManagerDataSchema>) {
+    const toastId = toast.loading("Submitting payment...");
+    const formData = new FormData();
+    formData.append("amount", values.amount.toString());
+    formData.append("type", values.type);
+    formData.append("note", values.note);
+
+    try {
+      const res = await fetch(`/api/debt/${id}`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit payment");
+      }
+
+      toast.success("Payment submitted successfully", { id: toastId });
+      form.reset();
+    } catch (error) {
+      toast.error("Error submitting payment", { id: toastId });
+    }
+    if (ref.current) {
+      
+      ref.current.click();
+    }
+    router.refresh();
   }
 
   return (
@@ -50,65 +85,69 @@ export function AddPaymentButton() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          {/* Title */}
           <DialogTitle className="font-bold text-xl">
             Add Payment Transaction
           </DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Amount</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Transaction amount"
+                      type="number"
+                      {...field}
+                      onChange={(event) => field.onChange(+event.target.value)}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Amount of payment you want to add.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Amount */}
-              <FormField
-                control={form.control}
-                name="amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Amount</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Transaction amount"
-                        type="number"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Amount of payment you want to add.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Note */}
-              <FormField
-                control={form.control}
-                name="note"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Note</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Note" type="text" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Note for the payment transaction.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="note"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Note</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Note" type="text" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Note for the payment transaction.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <section className="flex flex-row gap-10 items-center justify-center">
+              <DialogClose asChild>
+                <Button ref={ref} type="button" size="lg" className="hidden">
+                  Close
+                </Button>
+              </DialogClose>
 
               <Button
                 type="submit"
                 variant="green"
                 size="lg"
                 className="w-full"
+                disabled={form.formState.isSubmitting}
               >
                 Submit
               </Button>
-            </form>
-          </Form>
-        </DialogHeader>
+            </section>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

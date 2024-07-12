@@ -10,7 +10,11 @@ const TaskProgress: React.FC<TaskProgressProps> = ({ points }) => {
         {points}pt
       </div>
       <div className="mt-auto px-10 py-20">
-        <Progress value={points} checkpoints={[0, 75, 200]} maxValue={200} />
+        <Progress
+          value={points}
+          checkpoints={[0, 140, 300, 500]}
+          maxValue={500}
+        />
       </div>
     </div>
   );

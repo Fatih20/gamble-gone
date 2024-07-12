@@ -15,7 +15,7 @@ const Progress = React.forwardRef<
 >(({ className, value, checkpoints = [], maxValue, ...props }, ref) => {
   let progressValue = 0;
   if (value) {
-    progressValue = (value / maxValue) * 100;
+    progressValue = Math.min(100, (value / maxValue) * 100);
   }
 
   return (

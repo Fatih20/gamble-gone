@@ -2,7 +2,6 @@
 
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
-// import classNames from "classnames";
 import { ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,6 +28,10 @@ const navData = [
     title: "Profile",
     link: "/profile",
   },
+  {
+    title: "Debt-Analyzer",
+    link: "/debt-analyzer",
+  },
 ];
 
 const Sidebar = () => {
@@ -50,8 +53,8 @@ const Sidebar = () => {
             className={cn(
               "flex items-center justify-center text-xl font-bold text-neutral-50 transition duration-300 ease-in-out",
               {
-                "text-primary-green": currentPath === nav.link,
-                "hover:text-primary-green": currentPath !== nav.link,
+                "text-primary-green": currentPath.startsWith(nav.link),
+                "hover:text-primary-green": !currentPath.startsWith(nav.link),
               },
             )}
           >

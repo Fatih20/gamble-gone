@@ -42,7 +42,7 @@ export const LandingNavbar = () => {
           {!mockIsAuthenticated ? (
             <ul className="flex flex-row items-center gap-3 place-self-center justify-self-end">
               <li>
-                <Link href="/auth/sign-up">
+                <Link href="/auth/login">
                   <Button
                     variant="green"
                     // size="lg"

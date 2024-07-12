@@ -11,7 +11,7 @@ const TaskList = ({ Tasks }: { Tasks: DailyTask[] }) => {
         <H1 className="font-bold" level={"5xl"}>
           Daily Task
         </H1>
-        <Link href="#" className="text-gray-500">
+        <Link href="/task" className="text-gray-500">
           See All
         </Link>
       </div>

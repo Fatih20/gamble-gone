@@ -1,6 +1,5 @@
 import envVar from "@/envVar";
 import { ChatAnthropic } from "@langchain/anthropic";
-import { AIMessageChunk } from "@langchain/core/messages";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { Runnable, RunnableConfig } from "@langchain/core/runnables";
